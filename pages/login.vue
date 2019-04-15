@@ -1,16 +1,13 @@
 <template>
 	<div class="login">
-		<h1>
-			Login
-		</h1>
-		<form class="login__form" @submit.prevent="login">
-			<input v-model="username" type="text" />
-			<input v-model="password" type="text" />
-			<input type="submit" />
-		</form>
-		<button @click="logout">
-			log out
-		</button>
+		<div v-if="!this.$store.state.session.loggedIn" class="login__form">
+			<h1>Login</h1>
+			<form class="login__form" @submit.prevent="login">
+				<input v-model="username" type="text" />
+				<input v-model="password" type="text" />
+				<input type="submit" />
+			</form>
+		</div>
 	</div>
 </template>
 
@@ -21,6 +18,11 @@ export default {
 			username: 'Dipsaus',
 			password: 'admin'
 		};
+	},
+	beforeCreate() {
+		if (this.$store.state.session.loggedIn) {
+			this.$router.push('/projects');
+		}
 	},
 	methods: {
 		async login() {
@@ -33,13 +35,11 @@ export default {
 					password: this.password
 				}
 			});
-		},
-		async logout() {
-			await this.$axios({
-				withCredentials: true,
-				method: 'post',
-				url: '/logout'
-			});
+			this.$store.dispatch('session/userLoggedIn');
+			console.log(this.$route.query.redirect);
+			if (this.$route.query.redirect) {
+				this.$router.push(this.$route.query.redirect);
+			}
 		}
 	}
 };

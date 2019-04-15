@@ -16,9 +16,12 @@
 			</ul>
 		</nav>
 		<div class="nav__status">
-			<nuxt-link to="/login">
+			<nuxt-link v-if="!isLoggedIn" to="/login">
 				Login
 			</nuxt-link>
+			<button v-else @click="$store.dispatch('session/logOut')">
+				log out
+			</button>
 		</div>
 	</header>
 </template>
@@ -47,6 +50,11 @@ export default {
 				}
 			]
 		};
+	},
+	computed: {
+		isLoggedIn() {
+			return this.$store.state.session.loggedIn;
+		}
 	}
 };
 </script>
