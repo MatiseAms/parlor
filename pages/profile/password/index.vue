@@ -1,8 +1,8 @@
 <template>
 	<main class="page page--home">
-		<section class="header columns-flow">
+		<section class="header">
 			<h1 class="center">
-				Parlor = Designer & Developer
+				Change your password
 			</h1>
 			<p class="center grey">
 				It’s all about the details. Handoff designs and styleguides with accurate specs, assets, code snippets
@@ -11,21 +11,9 @@
 			<nuxt-link to="/signup" class="button center">
 				Get Started
 			</nuxt-link>
-			<div class="mockup__image"></div>
 		</section>
 	</main>
 </template>
 <style lang="scss">
 @import '~tools';
-
-.mockup__image {
-	margin: rem(80) auto;
-	width: grid(20);
-	height: grid(11.25);
-	background: color(Gallery);
-	overflow: hidden;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
 </style>

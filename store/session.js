@@ -1,16 +1,23 @@
 export const state = () => ({
-	loggedIn: false
+	loggedIn: false,
+	name: ''
 });
 
 export const mutations = {
 	changeStatus(state, value) {
-		state.loggedIn = value;
+		if (value) {
+			state.loggedIn = true;
+			state.name = value;
+		} else {
+			state.loggedIn = false;
+			state.name = '';
+		}
 	}
 };
 
 export const actions = {
-	userLoggedIn({ commit }) {
-		commit('changeStatus', true);
+	userLoggedIn({ commit }, name) {
+		commit('changeStatus', name);
 	},
 	async isLoggedIn({ commit }) {
 		const response = await this.$axios({
@@ -19,7 +26,7 @@ export const actions = {
 			url: '/isloggedin'
 		});
 		if (response && response.data && response.data.status) {
-			commit('changeStatus', true);
+			commit('changeStatus', response.data.fName);
 		}
 	},
 	async logOut({ commit }) {
