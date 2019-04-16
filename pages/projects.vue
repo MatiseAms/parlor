@@ -2,7 +2,15 @@
 	<main>
 		<section class="header projects">
 			<h1>Overview</h1>
-			<div class="projects__navigation">
+			<div v-if="!projects.length" class="no-project">
+				<p class="projects-overview__empty">
+					It seems like you are not part of any proect yet. Create one or ask permission in an existing project!
+				</p>
+				<nuxt-link to="/project/create" class="button projects__new-project">
+					Create new project
+				</nuxt-link>
+			</div>
+			<div v-if="projects.length" class="projects__navigation">
 				<ul class="projects__sort">
 					<li v-for="(item, index) of sortOptions" :key="index" class="projects__sort-item">
 						<button :class="{ active: sortMethod === item }" class="projects__sort-button" @click="changeSorting(item)">
@@ -172,11 +180,18 @@ export default {
 </script>
 <style lang="scss">
 @import '~tools';
+.no-project {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+}
 .projects {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	padding: grid(0 2);
+
 	&__navigation {
 		display: flex;
 		width: 100%;
@@ -213,6 +228,10 @@ export default {
 	}
 	&-overview {
 		padding: grid(0 1.5);
+		&__empty {
+			margin: grid(1 0.5 0);
+			font-weight: 500;
+		}
 		&__item {
 			padding: grid(1 0.5);
 		}
@@ -233,8 +252,6 @@ export default {
 	}
 	.grey {
 		font-size: rem(14);
-		z-index: 1;
-		position: relative;
 		display: inline-block;
 		line-height: 1;
 		& + .grey {
