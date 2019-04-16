@@ -3,15 +3,57 @@
 		<section class="login">
 			<div v-if="!this.$store.state.session.loggedIn">
 				<h1 class="center">
-					Get started!
+					Signup
 				</h1>
 				<p class="center grey">
 					It’s all about the details. Handoff designs and styleguides with accurate specs, assets, code snippets
 					automatically.
 				</p>
 				<div class="login__form-container">
-					<form @submit.prevent="login">
+					<form @submit.prevent="signup">
 						<div class="login__form">
+							<label class="login__label-el">
+								<span class="login__label">First name</span>
+								<input
+									v-model="fName"
+									type="text"
+									placeholder="Enter your first name"
+									required="true"
+									:class="{ error: error.fName }"
+								/>
+								<span class="login__check"></span>
+								<p v-if="error.fName" class="error">
+									{{ error.fName }}
+								</p>
+							</label>
+							<label class="login__label-el">
+								<span class="login__label">Last name</span>
+								<input
+									v-model="lName"
+									type="text"
+									placeholder="Enter your last name"
+									required="true"
+									:class="{ error: error.lName }"
+								/>
+								<span class="login__check"></span>
+								<p v-if="error.lName" class="error">
+									{{ error.lName }}
+								</p>
+							</label>
+							<label class="login__label-el">
+								<span class="login__label">Email</span>
+								<input
+									v-model="email"
+									type="text"
+									placeholder="Enter your email"
+									required="true"
+									:class="{ error: error.email }"
+								/>
+								<span class="login__check"></span>
+								<p v-if="error.email" class="error">
+									{{ error.email }}
+								</p>
+							</label>
 							<label class="login__label-el">
 								<span class="login__label">Username</span>
 								<input
@@ -41,11 +83,11 @@
 								</p>
 							</label>
 							<div class="login__submit">
-								<nuxt-link to="/signup">
-									Or create an account
+								<nuxt-link to="/login">
+									Or login
 								</nuxt-link>
 								<button class="button" type="submit">
-									Login
+									Signup
 								</button>
 							</div>
 						</div>
@@ -60,9 +102,15 @@
 export default {
 	data() {
 		return {
+			fName: '',
+			lName: '',
+			email: '',
 			username: '',
 			password: '',
 			error: {
+				fName: '',
+				lName: '',
+				email: '',
 				username: '',
 				password: ''
 			}
@@ -74,20 +122,21 @@ export default {
 		}
 	},
 	methods: {
-		async login() {
+		async signup() {
 			if (this.username && this.password) {
-				this.submit = true;
 				this.fallback();
 				const response = await this.$axios({
 					method: 'post',
 					withCredentials: true,
-					url: '/login',
+					url: '/signup',
 					data: {
 						username: this.username,
+						fName: this.fName,
+						lName: this.lName,
+						email: this.email,
 						password: this.password
 					}
 				});
-				//code 5 is failed login
 				if (response.data && response.data.code === 5) {
 					this.fallback(response.data);
 					return;
@@ -119,78 +168,4 @@ export default {
 </script>
 <style lang="scss">
 @import '~tools';
-.login {
-	padding: grid(1 0);
-	max-width: grid(9);
-	margin: 0 auto;
-	&__form-container {
-		margin: rem(80 0);
-	}
-	&__form {
-		display: flex;
-		flex-direction: column;
-	}
-	&__label-el {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		margin: rem(5 0);
-	}
-	&__label {
-		font-size: rem(16);
-		font-weight: 500;
-		letter-spacing: 0.5px;
-		line-height: 2;
-		color: color(ParlorBlack);
-		width: 100%;
-		display: inline-block;
-	}
-	&__check {
-		width: 100%;
-		height: 2px;
-		background: color(Grey);
-		display: block;
-		opacity: 0.2;
-	}
-	input {
-		width: 100%;
-		border: none;
-		background: transparent;
-		box-shadow: none;
-		height: rem(40);
-		padding: 0;
-		margin: 0;
-		line-height: rem(21);
-		font-size: rem(16);
-		color: color(ParlorBlack);
-		outline: none;
-		&::placeholder {
-			opacity: 0.5;
-		}
-		&:focus {
-			& + .login__check {
-				opacity: 1;
-			}
-		}
-	}
-	&__submit {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin: rem(30 0);
-		a,
-		button {
-			margin: rem(0 10);
-		}
-	}
-}
-
-form.submitted {
-	input.error {
-		& + .login__check {
-			opacity: 1;
-			background: color(Red);
-		}
-	}
-}
 </style>
