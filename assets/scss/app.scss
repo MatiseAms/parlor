@@ -14,3 +14,7 @@ $output: set-output(css, true);
 // Theme
 @import 'typography/typography';
 @import 'components/index';
+
+main {
+	padding: rem(120) grid(2);
+}

@@ -9,7 +9,7 @@
 		<nav class="nav">
 			<ul class="nav__list">
 				<li v-for="(item, index) of navItems" :key="index" class="nav__item">
-					<nuxt-link :to="item.url">
+					<nuxt-link :to="item.url" class="nav__url">
 						{{ item.title }}
 					</nuxt-link>
 				</li>
@@ -70,7 +70,7 @@ export default {
 		position: absolute;
 		left: 0;
 		top: 0;
-		text-indent: -9999em;
+		text-indent: -999em;
 	}
 }
 .parlor-logo {
@@ -83,14 +83,27 @@ export default {
 		line-height: 1;
 		color: color(ParlorBlack);
 		font-weight: 500;
+		padding: rem(0 30);
+	}
+	&__url {
+		text-decoration: none;
+		opacity: 0.5;
+		transition: 0.15s ease-in-out;
+		&.nuxt-link-active {
+			opacity: 1;
+			text-decoration: underline;
+		}
+		&:hover {
+			opacity: 1;
+		}
 	}
 }
 #header {
 	padding: 0 grid(2);
-	height: rem(100);
+	height: rem(80);
 	display: flex;
 	justify-content: space-between;
-	align-items: baseline;
+	align-items: flex-end;
 	width: 100%;
 }
 </style>

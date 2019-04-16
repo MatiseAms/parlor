@@ -16,3 +16,21 @@ h6 {
 // medium: 500,
 // bold: 600,
 // heavy: 700
+
+h1 {
+	font-size: rem(48);
+	letter-spacing: -0.5px;
+	color: color(ParlorBlack);
+}
+p {
+	font-size: rem(16);
+	line-height: 2;
+	letter-spacing: 0;
+	color: color(ParlorBlack);
+	&.error {
+		color: red;
+	}
+}
+div + p {
+	margin: 0;
+}
