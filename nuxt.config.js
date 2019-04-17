@@ -8,8 +8,7 @@ if (config.env === 'development') {
 module.exports = {
 	mode: 'universal',
 	env: {
-		environment: config.env || 'production',
-		baseURL: config.host || 'http://localhost:3000'
+		environment: config.env || 'production'
 	},
 
 	/*

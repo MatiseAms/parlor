@@ -7,6 +7,9 @@
 			{{
 				project.typographies.map((typo) => typo.key)
 			}}
+			<nuxt-link :to="`/project/upload/${$route.params.id}`" class="button">
+				Update project
+			</nuxt-link>
 		</ul>
 	</div>
 </template>

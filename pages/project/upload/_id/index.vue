@@ -14,15 +14,23 @@
 						<div class="login__form">
 							<label class="login__label-el">
 								<span class="login__label">Files</span>
-								<input ref="file" multiple name="sketch" type="file" value="[]" @change="onFileChange" />
+								<input
+									ref="file"
+									multiple
+									name="sketch"
+									type="file"
+									value="[]"
+									:class="{ error: error }"
+									@change="onFileChange"
+								/>
 								<span class="login__check"></span>
-								<!-- <p v-if="error.username" class="error">
-									{{ error.username }}
-								</p> -->
+								<p v-if="error" class="error">
+									{{ error }}
+								</p>
 							</label>
 							<div class="login__submit">
 								<button class="button" type="submit">
-									Login
+									Continue
 								</button>
 							</div>
 						</div>
@@ -37,7 +45,8 @@
 export default {
 	data() {
 		return {
-			sketch: []
+			sketch: [],
+			error: ''
 		};
 	},
 	methods: {
@@ -58,6 +67,9 @@ export default {
 					}
 				});
 				console.log(response);
+				if (response && response.data && response.data.code === 0) {
+					//start checklist
+				}
 			}
 		}
 	}
