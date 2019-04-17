@@ -73,6 +73,7 @@
 
 <script>
 export default {
+	middleware: 'session',
 	data() {
 		return {
 			sortMethod: 'Created',
@@ -232,7 +233,10 @@ export default {
 			font-weight: 500;
 		}
 		&__item {
-			padding: grid(1 0.5);
+			padding: grid(0.5);
+		}
+		&__list {
+			margin-top: grid(0.5);
 		}
 	}
 }
