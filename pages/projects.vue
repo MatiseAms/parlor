@@ -58,7 +58,7 @@
 						</p>
 						<ul class="single-project__users">
 							<li v-for="(user, i) of item.users" :key="i" class="single-project__user">
-								<img :src="`${host}/${user.image}`" :alt="`Profile picture of ${user.name}`" />
+								<img :src="user.image" :alt="`Profile picture of ${user.name}`" />
 								<span class="single-project__name">
 									{{ user.firstName }}
 								</span>
@@ -75,7 +75,6 @@
 export default {
 	data() {
 		return {
-			host: process.env.baseURL,
 			sortMethod: 'Created',
 			sortOptions: ['Created', 'Last updated', 'Name'],
 			projects: []

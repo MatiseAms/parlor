@@ -3,7 +3,7 @@
 		<section class="login">
 			<div v-if="!this.$store.state.session.loggedIn">
 				<h1 class="center">
-					Signup
+					Get started!
 				</h1>
 				<p class="center grey">
 					It’s all about the details. Handoff designs and styleguides with accurate specs, assets, code snippets
