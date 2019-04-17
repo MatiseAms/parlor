@@ -10,6 +10,9 @@ h5,
 h6 {
 	color: inherit;
 	font-weight: 500;
+	&.center {
+		text-align: center;
+	}
 }
 // light: 300
 // regular: 400,
@@ -22,15 +25,96 @@ h1 {
 	letter-spacing: -0.5px;
 	color: color(ParlorBlack);
 }
+h3 {
+	font-size: rem(20);
+	letter-spacing: -0.24px;
+	color: color(ParlorBlack);
+	line-height: 1;
+}
 p {
 	font-size: rem(16);
 	line-height: 2;
 	letter-spacing: 0;
 	color: color(ParlorBlack);
+	font-weight: 400;
 	&.error {
 		color: red;
+	}
+	&.center {
+		text-align: center;
+	}
+	&.grey {
+		color: color(Grey);
 	}
 }
 div + p {
 	margin: 0;
+}
+
+.button {
+	font-family: neue-haas-unica;
+	text-align: center;
+	padding: rem(12 32);
+	font-size: rem(14);
+	font-weight: 600;
+	color: color(White);
+	line-height: rem(21);
+	letter-spacing: 0;
+	background-color: color(Parlor);
+	border-radius: rem(53);
+	text-decoration: none;
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	box-shadow: none;
+	border: none;
+	&:after {
+		content: '';
+		height: 1px;
+		background: color(White);
+		display: block;
+		position: absolute;
+		top: calc(100% - 15px);
+		left: rem(30);
+		right: calc(100% - 30px);
+		transition: 0.3s $easing;
+	}
+	&:hover {
+		&:after {
+			animation: hoverButton 0.4s $easing;
+		}
+	}
+	&:focus {
+		box-shadow: none;
+		border: none;
+		outline: none;
+	}
+	&--black {
+		background: color(ParlorBlack);
+	}
+}
+
+h1 + p {
+	margin-top: grid(0.5);
+}
+
+p + .button {
+	margin-top: grid(0.5);
+}
+@keyframes hoverButton {
+	0% {
+		left: rem(30);
+		right: calc(100% - 30px);
+	}
+	50% {
+		left: rem(30);
+		right: rem(30);
+	}
+	100% {
+		left: calc(100% - 30px);
+		right: rem(30);
+	}
+}
+h3 + p {
+	margin-top: rem(15);
 }

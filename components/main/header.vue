@@ -16,12 +16,34 @@
 			</ul>
 		</nav>
 		<div class="nav__status">
-			<nuxt-link v-if="!isLoggedIn" to="/login">
+			<nuxt-link v-if="!isLoggedIn" to="/login" class="button">
 				Login
 			</nuxt-link>
-			<button v-else @click="$store.dispatch('session/logOut')">
-				log out
+			<button v-else class="button button--black" @click="toggleSubNav" @blur="toggleSubNav">
+				{{ name }}
 			</button>
+			<ul :class="{ active: isLoggedIn && subNav }" class="sub-nav">
+				<li class="sub-nav__item">
+					<nuxt-link to="/profile" class="sub-nav__url">
+						Profile
+					</nuxt-link>
+				</li>
+				<li class="sub-nav__item">
+					<nuxt-link to="/profile/password" class="sub-nav__url">
+						Change password
+					</nuxt-link>
+				</li>
+				<li class="sub-nav__item">
+					<nuxt-link to="/profile/picture" class="sub-nav__url">
+						Profile picture
+					</nuxt-link>
+				</li>
+				<li class="sub-nav__item">
+					<nuxt-link to="/logout" class="sub-nav__url">
+						Uitloggen
+					</nuxt-link>
+				</li>
+			</ul>
 		</div>
 	</header>
 </template>
@@ -34,6 +56,7 @@ export default {
 	},
 	data() {
 		return {
+			subNav: false,
 			title: 'Parlor',
 			navItems: [
 				{
@@ -54,6 +77,14 @@ export default {
 	computed: {
 		isLoggedIn() {
 			return this.$store.state.session.loggedIn;
+		},
+		name() {
+			return this.$store.state.session.name;
+		}
+	},
+	methods: {
+		toggleSubNav() {
+			this.subNav = !this.subNav;
 		}
 	}
 };
@@ -63,8 +94,9 @@ export default {
 @import '~tools';
 .title {
 	width: rem(80);
-	display: block;
 	overflow: hidden;
+	display: flex;
+	align-items: center;
 	&__text {
 		display: block;
 		position: absolute;
@@ -97,13 +129,55 @@ export default {
 			opacity: 1;
 		}
 	}
+	&__status {
+		position: relative;
+		.button,
+		button {
+			position: relative;
+			z-index: 1;
+		}
+	}
+}
+.sub-nav {
+	position: absolute;
+	right: 0;
+	top: calc(100% + 5px);
+	border: 1px solid color(ParlorBlack, 0);
+	max-height: 0;
+	padding: 0;
+	overflow: hidden;
+	transition: 0.4s $easing;
+	opacity: 0;
+	&.active {
+		border: 1px solid color(ParlorBlack);
+		opacity: 1;
+		padding: rem(15 0);
+		max-height: rem(999);
+	}
+	&__item {
+		width: 100%;
+	}
+	&__url {
+		display: block;
+		padding: rem(15 30);
+
+		font-size: rem(14);
+		text-decoration: none;
+		white-space: nowrap;
+		color: color(ParlorBlack);
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 }
 #header {
 	padding: 0 grid(2);
-	height: rem(80);
+	height: rem(120);
 	display: flex;
 	justify-content: space-between;
-	align-items: flex-end;
+	align-items: center;
 	width: 100%;
+	position: relative;
+	z-index: 2;
 }
 </style>
