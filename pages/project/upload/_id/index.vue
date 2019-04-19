@@ -29,7 +29,7 @@
 								</p>
 							</label>
 							<div class="login__submit">
-								<button class="button" type="submit">
+								<button class="button" type="submit" :disabled="!sketch.length">
 									Continue
 								</button>
 							</div>
@@ -44,18 +44,16 @@
 <script>
 export default {
 	middleware: 'session',
-	data() {
-		return {
-			sketch: [],
-			error: ''
-		};
-	},
+	data: () => ({
+		sketch: [],
+		error: ''
+	}),
 	methods: {
 		onFileChange() {
 			this.sketch = this.$refs.file.files;
 		},
 		async uploadFiles() {
-			if (this.sketch) {
+			if (this.sketch && this.sketch.length) {
 				let formData = new FormData();
 				for (let i = 0; i < this.sketch.length; i++) {
 					formData.append('sketch', this.sketch[i]);
