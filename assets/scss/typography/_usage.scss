@@ -68,6 +68,15 @@ div + p {
 	position: relative;
 	box-shadow: none;
 	border: none;
+	&:disabled {
+		opacity: 0.3;
+		cursor: auto;
+		&:hover {
+			&:after {
+				animation: none;
+			}
+		}
+	}
 	&:after {
 		content: '';
 		height: 1px;

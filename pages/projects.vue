@@ -73,6 +73,7 @@
 
 <script>
 export default {
+	middleware: 'session',
 	data() {
 		return {
 			sortMethod: 'Created',
@@ -138,11 +139,11 @@ export default {
 			this.projects = projects;
 		},
 		calculateProcess(project) {
-			const check = ['colors', 'grids', 'typographies'];
+			const check = ['colorStatus', 'gridStatus', 'typoStatus'];
 
 			let complete = 0;
 			check.forEach((name) => {
-				if (project[name].length) {
+				if (project[name]) {
 					complete++;
 				}
 			});
@@ -232,7 +233,10 @@ export default {
 			font-weight: 500;
 		}
 		&__item {
-			padding: grid(1 0.5);
+			padding: grid(0.5);
+		}
+		&__list {
+			margin-top: grid(0.5);
 		}
 	}
 }

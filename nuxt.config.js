@@ -8,7 +8,8 @@ if (config.env === 'development') {
 module.exports = {
 	mode: 'universal',
 	env: {
-		environment: config.env || 'production'
+		environment: config.env || 'production',
+		api: config.api
 	},
 
 	/*
