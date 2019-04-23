@@ -139,11 +139,11 @@ export default {
 			this.projects = projects;
 		},
 		calculateProcess(project) {
-			const check = ['colors', 'grids', 'typographies'];
+			const check = ['colorStatus', 'gridStatus', 'typoStatus'];
 
 			let complete = 0;
 			check.forEach((name) => {
-				if (project[name].length) {
+				if (project[name]) {
 					complete++;
 				}
 			});

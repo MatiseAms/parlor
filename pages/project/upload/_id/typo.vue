@@ -2,15 +2,40 @@
 	<main class="page page--login">
 		<section class="login">
 			<div>
-				<h1 class="center" :style="`font-family: Favorit`">
+				<h1 class="center">
 					Check the typography
 				</h1>
 				<p class="center grey">
 					It’s all about the details. Handoff designs and styleguides with accurate specs, assets, code snippets
 					automatically.
 				</p>
-				{{ fonts }}
+				<div v-for="(font, index) of fonts" :key="index" class="font-element">
+					<component :is="font.key">
+						{{ font.key !== 'p' ? font.key.toUpperCase() : font.key }}
+					</component>
+					<span
+						:style="
+							`font-family: ${font.family};
+							font-weight: ${getFontWeight(weight[index], index)};
+							color: ${colors[index].colors[colors[index].active]};
+							line-height: ${font.lineheight};
+							letter-spacing: ${font.kerning}px;
+							font-size: ${getFontSize(font)};`
+						"
+					>
+						The quick brown fox jumps over the lazy dog
+					</span>
+					<button v-for="(singleWeight, i) of font.weight" :key="i" @click="changeWeight(index, i)">
+						{{ singleWeight }}
+					</button>
+					<button v-for="(singleWeight, i) of font.colors" :key="`colors-${i}`" @click="changeColor(index, i)">
+						{{ singleWeight }}
+					</button>
+				</div>
 			</div>
+			<button class="button" @click="confirm">
+				Confirm and continue
+			</button>
 		</section>
 	</main>
 </template>
@@ -20,8 +45,8 @@ export default {
 	middleware: 'session',
 	data() {
 		return {
-			fontFamily: '',
 			fonts: [],
+			weight: [],
 			error: ''
 		};
 	},
@@ -35,8 +60,29 @@ export default {
 			if (response.data.data.missingFonts.length) {
 				redirect(`/project/upload/${params.id}/fonts`);
 			} else {
+				const fonts = response.data.data.allFonts.sort((a, b) => {
+					const nameA = a.key.toUpperCase();
+					const nameB = b.key.toUpperCase();
+					if (nameA < nameB) {
+						return -1;
+					}
+					if (nameA > nameB) {
+						return 1;
+					}
+					return 0;
+				});
+				const weight = fonts.map((font) => ({
+					weight: font.weight,
+					active: 0
+				}));
+				const colors = fonts.map((font) => ({
+					colors: font.colors,
+					active: 0
+				}));
 				return {
-					fonts: response.data.data.allFonts
+					fonts,
+					weight,
+					colors
 				};
 			}
 		}
@@ -49,7 +95,6 @@ export default {
 				weight
 			};
 		});
-		allFonts[0].weight.push('Medium');
 		const fontFamily = this.flattenDeep(allFonts);
 		const api = process.env.api;
 		Object.keys(fontFamily).forEach((font) => {
@@ -64,6 +109,55 @@ export default {
 		});
 	},
 	methods: {
+		async confirm() {
+			const response = await this.$axios({
+				method: 'post',
+				withCredentials: true,
+				url: `/project/${this.$route.params.id}/upload/typo`,
+				data: {
+					typographies: this.fonts
+				}
+			});
+			if (response && response.data && response.data.code === 0) {
+				//start checklist
+				this.$router.push(`/project/upload/${this.$route.params.id}/colors`);
+			}
+		},
+		changeWeight(index, i) {
+			this.weight[index].active = i;
+		},
+		changeColor(index, i) {
+			this.colors[index].active = i;
+		},
+		getFontSize(font) {
+			const base = font.baseSize;
+			const fontSize = base / 80;
+			if (font.key === 'p') {
+				return `${base}px`;
+			} else {
+				const grid = 100 / 24;
+				return `${grid * fontSize}vw`;
+			}
+		},
+		getFontWeight(font, index) {
+			const weightIndex = this.weight[index];
+			switch (font.weight[weightIndex.active].toLowerCase()) {
+				case 'medium':
+					return '500';
+				case 'regular':
+					return 'normal';
+				case 'bold':
+					return '700';
+				case 'heavy':
+					return '900';
+				case 'light':
+					return '300';
+				case 'thin':
+					return '200';
+				default:
+					return 'normal';
+			}
+		},
 		flattenDeep(arr1) {
 			return arr1.reduce((acc, curr) => {
 				if (acc[curr.name]) {

@@ -125,7 +125,7 @@ export default {
 			if (response && response.data && response.data.code === 0) {
 				//succes
 				if (!response.data.data.missingFonts.length) {
-					this.$router.push(`/project/upload/${this.$route.params.id}/upload/typo`);
+					this.$router.push(`/project/upload/${this.$route.params.id}/typo`);
 				} else {
 					this.status = 0;
 					this.missingFonts = response.data.data.missingFonts;

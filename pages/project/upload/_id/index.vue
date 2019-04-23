@@ -59,7 +59,6 @@ export default {
 					formData.append('sketch', this.sketch[i]);
 				}
 				const response = await this.$axios.post(`/project/${this.$route.params.id}/upload`, formData, {
-					method: 'post',
 					withCredentials: true,
 					headers: {
 						'Content-Type': 'multipart/form-data'
