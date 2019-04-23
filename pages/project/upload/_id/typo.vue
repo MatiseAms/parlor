@@ -99,7 +99,7 @@ export default {
 		const api = process.env.api;
 		Object.keys(fontFamily).forEach((font) => {
 			const newStyle = document.createElement('style');
-			const baseURL = `${api}/uploads/projects/${this.$route.params.id}/fonts/${font}/`;
+			const baseURL = `${api}/uploads/projects/${this.$route.params.id}/fonts/${font.toLowerCase()}/`;
 			const string = fontFamily[font].map((weight) => `url("${baseURL}${font}-${weight}.woff2") format("woff2")`);
 			newStyle.appendChild(
 				document.createTextNode('@font-face { font-family: ' + font + '; src: ' + string.join(',') + ' ;}')
