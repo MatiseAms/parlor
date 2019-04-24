@@ -32,8 +32,7 @@ module.exports = {
 	 ** Customize the progress bar color
 	 */
 	loading: {
-		color: '#000000' //,
-		// failedColor: '#000000'
+		color: '#070c0f'
 	},
 
 	/*
@@ -49,19 +48,7 @@ module.exports = {
 	/*
 	 ** Nuxt.js modules
 	 */
-	modules: [
-		'nuxt-rfg-icon',
-		// '@nuxtjs/google-analytics',
-		'@nuxtjs/axios'
-	],
-
-	/*
-	 ** GoogleAnalytics module configuration
-	 */
-	// 'google-analytics': {
-	// 	id: 'UA-xxxxxxxx-xx',
-	// 	disabled: false
-	// },
+	modules: ['nuxt-rfg-icon', '@nuxtjs/axios'],
 
 	/*
 	 ** Axios module configuration
@@ -77,18 +64,6 @@ module.exports = {
 	 ** Build configuration
 	 */
 	build: {
-		/*
-		 ** Build plugins
-		 */
-		plugins: [],
-
-		// babel: {
-		// 	babelrc: true,
-		// 	cacheDirectory: undefined
-		// },
-
-		transpile: [], // Name of NPM packages to be transpiled
-
 		/*
 		 ** You can extend webpack config here
 		 */

@@ -45,6 +45,7 @@
 export default {
 	middleware: 'session',
 	data: () => ({
+		loading: true,
 		error: {},
 		fonts: {},
 		disabled: true,
@@ -70,7 +71,8 @@ export default {
 			}
 		} else {
 			return {
-				status: 1
+				status: 1,
+				loading: true
 			};
 		}
 	},
@@ -137,7 +139,7 @@ export default {
 			}
 		},
 		everythingIsReady() {
-			console.log(this.missingFonts);
+			this.loading = false;
 		}
 	}
 };
