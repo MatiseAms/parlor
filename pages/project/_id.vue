@@ -1,12 +1,6 @@
 <template>
 	<div>
 		<ul v-if="project">
-			{{
-				project.colors.map((color) => color.value)
-			}}
-			{{
-				project.typographies.map((typo) => typo.key)
-			}}
 			<nuxt-link :to="`/project/upload/${$route.params.id}`" class="button">
 				Update project
 			</nuxt-link>
@@ -29,6 +23,7 @@ export default {
 		});
 		if (response && response.data) {
 			const project = response.data;
+			//check status and if we need to finish something before continue
 			if (project.version === 0) {
 				redirect(`/project/upload/${params.id}`);
 			} else if (!project.typoStatus) {
@@ -42,6 +37,9 @@ export default {
 				project: response.data
 			};
 		}
+	},
+	created() {
+		console.log(this.project);
 	}
 };
 </script>

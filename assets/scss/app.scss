@@ -107,3 +107,28 @@ form.submitted {
 		}
 	}
 }
+
+.form {
+	width: 100%;
+	align-items: center;
+	display: flex;
+	input {
+		width: calc(100% - #{$grid-1});
+	}
+}
+.checklist {
+	.sub-title {
+		font-size: rem(14);
+		font-weight: bold;
+		line-height: 1.4;
+		color: color(Grey);
+	}
+	h1 {
+		margin-top: 0;
+	}
+	&__footer {
+		margin: grid(1 4);
+		display: flex;
+		justify-content: flex-end;
+	}
+}
