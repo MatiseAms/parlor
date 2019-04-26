@@ -1,63 +1,59 @@
 <template>
 	<main class="page page--login">
-		<section class="login">
-			<div v-if="!this.$store.state.session.loggedIn">
-				<h1 class="center">
-					Login
-				</h1>
-				<p class="center grey">
-					It’s all about the details. Handoff designs and styleguides with accurate specs, assets, code snippets
-					automatically.
-				</p>
-				<div class="login__form-container">
-					<form @submit.prevent="login">
-						<div class="login__form">
-							<label class="login__label-el">
-								<span class="login__label">Username</span>
-								<input
-									v-model="username"
-									type="text"
-									placeholder="Enter your username or email"
-									required="true"
-									:class="{ error: error.username }"
-								/>
-								<span class="login__check"></span>
-								<p v-if="error.username" class="error">
-									{{ error.username }}
-								</p>
-							</label>
-							<label class="login__label-el">
-								<span class="login__label">Password</span>
-								<input
-									v-model="password"
-									type="password"
-									placeholder="Enter your password"
-									required="true"
-									:class="{ error: error.password }"
-								/>
-								<span class="login__check"></span>
-								<p v-if="error.password" class="error">
-									{{ error.password }}
-								</p>
-							</label>
-							<div class="login__submit">
-								<nuxt-link to="/signup">
-									Or create an account
-								</nuxt-link>
-								<button class="button" type="submit">
-									Login
-								</button>
-							</div>
-						</div>
-					</form>
+		<simple-form
+			v-if="!this.$store.state.session.loggedIn"
+			title="Login"
+			sub-title="It’s all about the details. Handoff designs and styleguides with accurate specs, assets, code snippets automatically."
+		>
+			<form @submit.prevent="login">
+				<div class="login__form">
+					<label class="login__label-el">
+						<span class="login__label">Username</span>
+						<input
+							v-model="username"
+							type="text"
+							placeholder="Enter your username or email"
+							required="true"
+							:class="{ error: error.username }"
+						/>
+						<span class="login__check"></span>
+						<p v-if="error.username" class="error">
+							{{ error.username }}
+						</p>
+					</label>
+					<label class="login__label-el">
+						<span class="login__label">Password</span>
+						<input
+							v-model="password"
+							type="password"
+							placeholder="Enter your password"
+							required="true"
+							:class="{ error: error.password }"
+						/>
+						<span class="login__check"></span>
+						<p v-if="error.password" class="error">
+							{{ error.password }}
+						</p>
+					</label>
+					<div class="login__submit">
+						<nuxt-link to="/signup">
+							Or create an account
+						</nuxt-link>
+						<button class="button" type="submit">
+							Login
+						</button>
+					</div>
 				</div>
-			</div>
-		</section>
+			</form>
+		</simple-form>
 	</main>
 </template>
 
 <script>
 export default {
+	components: {
+		simpleForm: () => import('~/components/elements/simple-form.vue')
+	},
 	data() {
 		return {
 			username: '',

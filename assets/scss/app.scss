@@ -130,5 +130,15 @@ form.submitted {
 		margin: grid(1 4);
 		display: flex;
 		justify-content: flex-end;
+		align-items: center;
+	}
+	&__skip {
+		text-decoration: none;
+		margin-right: rem(20);
+		opacity: 0.5;
+		transition: 0.15s ease-in-out;
+		&:hover {
+			opacity: 1;
+		}
 	}
 }
