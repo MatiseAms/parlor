@@ -2,14 +2,8 @@
 	<div>
 		<ul v-if="project">
 			<li>
-				<nuxt-link :to="`/project/${$route.params.id}/typo`">
-					<h2>
-						Fonts
-					</h2>
-					<p>Add all fonts</p>
-				</nuxt-link>
-				<nuxt-link v-if="missingParts.includes('fonts')" :to="`/project/${$route.params.id}/upload/fonts`">
-					Finish the checklist
+				<nuxt-link v-if="missingParts.includes('font')" :to="`/project/${$route.params.id}/upload/fonts`">
+					Finish the checklist and add all fonts
 				</nuxt-link>
 			</li>
 			<li>
@@ -24,7 +18,7 @@
 				</nuxt-link>
 			</li>
 			<li>
-				<nuxt-link :to="`/project/${$route.params.id}/typo`">
+				<nuxt-link :to="`/project/${$route.params.id}/colors`">
 					<h2>
 						Colors
 					</h2>
@@ -35,7 +29,7 @@
 				</nuxt-link>
 			</li>
 			<li>
-				<nuxt-link :to="`/project/${$route.params.id}/typo`">
+				<nuxt-link :to="`/project/${$route.params.id}/grid`">
 					<h2>
 						Grid
 					</h2>
