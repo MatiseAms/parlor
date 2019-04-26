@@ -92,9 +92,6 @@ export default {
 			};
 		}
 	},
-	created() {
-		console.log(this.project, this.missingParts);
-	},
 	methods: {
 		async deleteProject() {
 			const response = await this.$axios({
