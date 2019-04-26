@@ -1,48 +1,48 @@
 <template>
 	<main class="page page--login">
-		<section v-if="missingFonts.length" class="login">
-			<div>
-				<h1 class="center">
-					We are missing some fonts
-				</h1>
-				<p class="center grey">
-					There are missing some fonts in your project. Please provide a valid upload.
-				</p>
-			</div>
-			<div class="login__form-container">
-				<form @submit.prevent="uploadFonts">
-					<div v-for="(item, index) of missingFonts" :key="index" class="login__form">
-						<label class="login__label-el">
-							<span class="login__label">Missing Font: {{ item }}</span>
-							<input
-								:ref="item"
-								accept=".woff2"
-								multiple
-								:name="item"
-								type="file"
-								value="[]"
-								:class="{ error: error[item] }"
-								@change="onFileChange(item)"
-							/>
-							<span class="login__check"></span>
-							<p v-if="error[item]" class="error">
-								{{ error[item] }}
-							</p>
-						</label>
-					</div>
-					<div class="login__submit">
-						<button class="button" type="submit" :disabled="disabled">
-							Continue
-						</button>
-					</div>
-				</form>
-			</div>
-		</section>
+		<simple-form
+			v-if="missingFonts.length"
+			title="We are missing some fonts"
+			sub-title="There are missing some fonts in your project. Please provide a valid upload."
+		>
+			<form @submit.prevent="uploadFonts">
+				<div v-for="(item, index) of missingFonts" :key="index" class="login__form">
+					<label class="login__label-el">
+						<span class="login__label">Missing Font: {{ item }}</span>
+						<input
+							:ref="item"
+							accept=".woff2"
+							multiple
+							:name="item"
+							type="file"
+							value="[]"
+							:class="{ error: error[item] }"
+							@change="onFileChange(item)"
+						/>
+						<span class="login__check"></span>
+						<p v-if="error[item]" class="error">
+							{{ error[item] }}
+						</p>
+					</label>
+				</div>
+				<div class="login__submit">
+					<nuxt-link :to="`/project/${$route.params.id}/upload/typo`" class="checklist__skip">
+						Skip fonts
+					</nuxt-link>
+					<button class="button" type="submit" :disabled="disabled">
+						Continue
+					</button>
+				</div>
+			</form>
+		</simple-form>
 	</main>
 </template>
 
 <script>
 export default {
+	components: {
+		simpleForm: () => import('~/components/elements/simple-form.vue')
+	},
 	middleware: 'session',
 	data: () => ({
 		loading: true,
@@ -62,7 +62,7 @@ export default {
 		if (response && response.data && response.data.code === 0) {
 			//succes
 			if (!response.data.data.missingFonts.length) {
-				redirect(`/project/upload/${params.id}/typo`);
+				redirect(`/project/${params.id}/upload/typo`);
 			} else {
 				return {
 					status: 0,
@@ -104,7 +104,7 @@ export default {
 				}
 			});
 			if (response && response.data && response.data.code === 0) {
-				this.$router.push(`/project/upload/${this.$route.params.id}/typo`);
+				this.$router.push(`/project/${this.$route.params.id}/upload/typo`);
 			}
 		},
 		notReady() {
@@ -127,7 +127,7 @@ export default {
 			if (response && response.data && response.data.code === 0) {
 				//succes
 				if (!response.data.data.missingFonts.length) {
-					this.$router.push(`/project/upload/${this.$route.params.id}/typo`);
+					this.$router.push(`/project/${this.$route.params.id}/upload/typo`);
 				} else {
 					this.status = 0;
 					this.missingFonts = response.data.data.missingFonts;

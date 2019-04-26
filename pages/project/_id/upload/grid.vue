@@ -6,7 +6,7 @@
 					CHECKLIST
 				</p>
 				<h1 class="center">
-					Colors
+					Grid
 				</h1>
 			</div>
 			<div class="login__form-container">
@@ -31,8 +31,11 @@
 			</div>
 		</section>
 		<div class="checklist__footer">
-			<button class="button button--black" @click="confirm">
-				Next step
+			<nuxt-link :to="`/project/${$route.params.id}`" class="checklist__skip">
+				Skip Grid
+			</nuxt-link>
+			<button class="button" @click="confirm">
+				Finish
 			</button>
 		</div>
 	</main>
@@ -49,16 +52,28 @@ export default {
 		};
 	},
 	async asyncData({ params, app }) {
-		const response = await app.$axios({
+		const responseProject = await app.$axios({
 			method: 'get',
 			withCredentials: true,
-			url: `/project/${params.id}/upload/grid`
+			url: `/project/${params.id}`
 		});
-		if (response && response.data && response.data.code === 0) {
+		if (responseProject && responseProject.data && responseProject.data.gridStatus) {
 			return {
-				grid: Array(response.data.data),
-				gridAmount: response.data.data
+				grid: Array(responseProject.data.grids[0].value),
+				gridAmount: responseProject.data.grids[0].value
 			};
+		} else {
+			const response = await app.$axios({
+				method: 'get',
+				withCredentials: true,
+				url: `/project/${params.id}/upload/grid`
+			});
+			if (response && response.data && response.data.code === 0) {
+				return {
+					grid: Array(response.data.data),
+					gridAmount: response.data.data
+				};
+			}
 		}
 	},
 	methods: {
