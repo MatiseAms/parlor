@@ -10,7 +10,7 @@
 				</h1>
 			</div>
 			<div class="login__form-container">
-				<form @submit.prevent="confirm">
+				<form class="form form__column" @submit.prevent="confirm">
 					<label class="login__label-el">
 						<span class="login__label">Grid columns</span>
 						<input v-model.number="gridAmount" max="50" min="1" type="number" @input="setGrid" />
@@ -32,10 +32,10 @@
 		</section>
 		<div class="checklist__footer">
 			<nuxt-link :to="`/project/${$route.params.id}`" class="checklist__skip">
-				Skip Grid
+				Skip
 			</nuxt-link>
-			<button class="button" @click="confirm">
-				Finish
+			<button class="button button--black" @click="confirm">
+				Save
 			</button>
 		</div>
 	</main>
@@ -105,45 +105,3 @@ export default {
 	}
 };
 </script>
-<style lang="scss">
-@import '~tools';
-.grid-example {
-	margin: rem(40 0);
-	height: grid(7);
-	background: color(Gallery);
-	&__column {
-		border-left: 1px solid red;
-		&:last-of-type {
-			border-right: 1px solid red;
-		}
-	}
-}
-.checklist__grid {
-	margin: grid(0 4);
-}
-.login__label-el {
-	width: calc(100% - (#{$grid-1} * 4));
-	margin: 0 auto;
-	input {
-		width: 100%;
-		border: none;
-		background: transparent;
-		box-shadow: none;
-		height: rem(40);
-		padding: 0;
-		margin: 0;
-		line-height: rem(21);
-		font-size: rem(16);
-		color: color(ParlorBlack);
-		outline: none;
-		&::placeholder {
-			opacity: 0.5;
-		}
-		&:focus {
-			& + .login__check {
-				opacity: 1;
-			}
-		}
-	}
-}
-</style>

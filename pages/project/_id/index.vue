@@ -1,59 +1,97 @@
 <template>
-	<div>
-		<ul v-if="project">
-			<li>
-				<nuxt-link v-if="missingParts.includes('font')" :to="`/project/${$route.params.id}/upload/fonts`">
-					Finish the checklist and add all fonts
-				</nuxt-link>
-			</li>
-			<li>
-				<nuxt-link :to="`/project/${$route.params.id}/typo`">
-					<h2>
-						Typography
-					</h2>
-					<p>See all Typography</p>
-				</nuxt-link>
-				<nuxt-link v-if="missingParts.includes('typo')" :to="`/project/${$route.params.id}/upload/typo`">
-					Finish the checklist
-				</nuxt-link>
-			</li>
-			<li>
-				<nuxt-link :to="`/project/${$route.params.id}/colors`">
-					<h2>
-						Colors
-					</h2>
-					<p>See all Colors</p>
-				</nuxt-link>
-				<nuxt-link v-if="missingParts.includes('colors')" :to="`/project/${$route.params.id}/upload/colors`">
-					Finish the checklist
-				</nuxt-link>
-			</li>
-			<li>
-				<nuxt-link :to="`/project/${$route.params.id}/grid`">
-					<h2>
-						Grid
-					</h2>
-					<p>See Grid layout</p>
-				</nuxt-link>
-				<nuxt-link v-if="missingParts.includes('grid')" :to="`/project/${$route.params.id}/upload/fonts`">
-					Finish the checklist
-				</nuxt-link>
-			</li>
-		</ul>
-		<button class="button button--black" @click="deleteProject">
-			Delete project
-		</button>
-		<nuxt-link :to="`/project/${$route.params.id}/user`" class="button">
-			Add an user
-		</nuxt-link>
-		<nuxt-link :to="`/project/${$route.params.id}/upload`" class="button">
-			Update project
-		</nuxt-link>
-	</div>
+	<main class="page page--checklist">
+		<checklist-field :title="project.name" sub-title="OVERVIEW">
+			<template v-slot:top>
+				<bread-crumbs :title="project.name" />
+			</template>
+			<template v-slot:header>
+				<div class="project__overview">
+					<ul v-if="project" class="project__list">
+						<li v-if="missingParts.includes('font')" class="project__item">
+							<nuxt-link :to="`/project/${$route.params.id}/upload/font`" class="project__url">
+								<h4>
+									Fonts
+								</h4>
+							</nuxt-link>
+							<nuxt-link :to="`/project/${$route.params.id}/upload/font`">
+								Finish the checklist
+							</nuxt-link>
+						</li>
+						<li class="project__item">
+							<nuxt-link :to="`/project/${$route.params.id}/typography`" class="project__url">
+								<h4>
+									Typography
+								</h4>
+								<p>See all Typography</p>
+							</nuxt-link>
+							<nuxt-link v-if="missingParts.includes('typo')" :to="`/project/${$route.params.id}/upload/typography`">
+								Finish the checklist
+							</nuxt-link>
+						</li>
+						<li class="project__item">
+							<nuxt-link :to="`/project/${$route.params.id}/colors`" class="project__url">
+								<h4>
+									Colors
+								</h4>
+								<p>See all Colors</p>
+							</nuxt-link>
+							<nuxt-link v-if="missingParts.includes('colors')" :to="`/project/${$route.params.id}/upload/colors`">
+								Finish the checklist
+							</nuxt-link>
+						</li>
+						<li class="project__item">
+							<nuxt-link :to="`/project/${$route.params.id}/grid`" class="project__url">
+								<h4>
+									Grid
+								</h4>
+								<p>See Grid layout</p>
+							</nuxt-link>
+							<nuxt-link v-if="missingParts.includes('grid')" :to="`/project/${$route.params.id}/upload/grid`">
+								Finish the checklist
+							</nuxt-link>
+						</li>
+						<li class="project__item">
+							<nuxt-link :to="`/project/${$route.params.id}/images`" class="project__url">
+								<h4>
+									Static images
+								</h4>
+								<p>See all images</p>
+							</nuxt-link>
+						</li>
+						<li class="project__item">
+							<nuxt-link :to="`/project/${$route.params.id}/user`" class="project__url">
+								<h4>
+									Add an user
+								</h4>
+								<p>Add an user</p>
+							</nuxt-link>
+						</li>
+						<li class="project__item">
+							<nuxt-link :to="`/project/${$route.params.id}/upload`" class="project__url">
+								<h4>
+									Upload new files
+								</h4>
+								<p>Upload new files</p>
+							</nuxt-link>
+						</li>
+						<li class="project__item">
+							<button class="project__url" @click="deleteProject">
+								<h4>Delete "{{ project.name }}"</h4>
+							</button>
+						</li>
+					</ul>
+				</div>
+			</template>
+		</checklist-field>
+	</main>
 </template>
 
 <script>
 export default {
+	components: {
+		checklistField: () => import('~/components/elements/checklist-field.vue'),
+		BreadCrumbs: () => import('~/components/elements/bread-crumbs.vue')
+	},
 	data() {
 		return {
 			project: [],
@@ -106,3 +144,18 @@ export default {
 	}
 };
 </script>
+<style lang="scss">
+@import '~tools';
+.project {
+	&__overview {
+		margin: grid(1 6);
+	}
+	&__list {
+		display: flex;
+		flex-direction: column;
+	}
+	&__item {
+		display: flex;
+	}
+}
+</style>

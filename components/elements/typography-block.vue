@@ -95,20 +95,22 @@
 							</span>
 						</p>
 					</div>
-					<button
-						v-if="itemActive === -1 || itemActive !== index"
-						class="font-element__edit"
-						@click.prevent="changeActive(index)"
-					>
-						Edit
-					</button>
-					<button
-						v-if="itemActive === index"
-						class="font-element__edit font-element__edit--save"
-						@click.prevent="changeActive(-1)"
-					>
-						Save
-					</button>
+					<template v-if="editMode">
+						<button
+							v-if="itemActive === -1 || itemActive !== index"
+							class="font-element__edit"
+							@click.prevent="changeActive(index)"
+						>
+							Edit
+						</button>
+						<button
+							v-if="itemActive === index"
+							class="font-element__edit font-element__edit--save"
+							@click.prevent="changeActive(-1)"
+						>
+							Save
+						</button>
+					</template>
 				</form>
 			</li>
 		</ul>
@@ -120,6 +122,10 @@ export default {
 		fonts: {
 			type: Array,
 			default: () => []
+		},
+		editMode: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data: () => ({
@@ -127,6 +133,11 @@ export default {
 	}),
 	methods: {
 		changeActive(index) {
+			if (index === -1) {
+				this.$nuxt.$emit('Typo_save', true);
+			} else {
+				this.$nuxt.$emit('Typo_change', true);
+			}
 			this.itemActive = index;
 			if (index !== -1) {
 				setTimeout(() => {
@@ -141,25 +152,25 @@ export default {
 @import '~tools';
 .font-element {
 	&__edit {
-		cursor: pointer;
 		display: inline-block;
-		border: none;
 		box-shadow: none;
-		background: transparent;
-		font-family: $primary-font-family;
-		font-size: rem(14);
-		font-weight: 500;
-		color: color(Grey);
-		margin-left: grid(1);
+		border: none;
 		outline: none;
+		background: transparent;
+		color: color(Grey);
+		font-weight: 500;
+		font-size: rem(14);
+		font-family: $primary-font-family;
+		cursor: pointer;
+		margin-left: grid(1);
 		&:after {
 			content: '';
-			display: block;
 			top: 100%;
 			left: 0;
+			display: block;
 			width: 100%;
-			background: color(Grey);
 			height: 1px;
+			background: color(Grey);
 			opacity: 0;
 			transition: 0.2s $easing;
 		}
@@ -185,55 +196,55 @@ export default {
 		}
 		&-item {
 			width: calc(100% / 8);
-			font-size: rem(14);
-			font-weight: 500;
-			line-height: 1;
 			color: color(ParlorBlack);
+			font-weight: 500;
+			font-size: rem(14);
+			line-height: 1;
 			&--family {
 				width: calc(100% / 4);
 			}
 		}
 	}
 	&__list {
-		width: 100%;
 		display: flex;
 		flex-direction: column;
+		width: 100%;
 		margin: 0;
 	}
 	&__item {
-		width: calc(100% - (#{$grid-1} * 4));
-		margin-left: grid(2);
-		margin-right: grid(2);
-		display: flex;
-		align-items: flex-start;
-		padding: rem(40) 0 rem(40) grid(2);
 		position: relative;
+		display: flex;
 		flex-direction: row;
+		align-items: flex-start;
+		width: calc(100% - (#{$grid-1} * 4));
+		color: color(ParlorBlack);
 		transition: width 0.4s $easing 0.4s, box-shadow 0.4s $easing, padding 0.4s $easing 0.4s, margin-left 0.4s $easing 0.4s,
 			margin-right 0.4s $easing 0.4s, opacity 0.4s $easing, margin-bottom 0.4s $easing, margin-top 0.4s $easing;
-		color: color(ParlorBlack);
+		margin-left: grid(2);
+		margin-right: grid(2);
+		padding: rem(40) 0 rem(40) grid(2);
 		&:after {
 			content: '';
-			display: flex;
 			position: absolute;
 			top: 100%;
 			left: grid(2);
+			display: flex;
 			width: calc(100% - (#{$grid-1} * 4));
 			height: 1px;
 			background: color(Gallery);
 			transition: 0;
 		}
 		&.active {
-			box-shadow: 0 0 40px 0 rgba(black, 0.1);
 			width: 100%;
+			box-shadow: 0 0 40px 0 rgba(black, 0.1);
 			margin-left: 0;
 			padding: rem(40) grid(2) rem(40) grid(4);
 			margin-top: rem(5);
 			margin-bottom: rem(5);
 			&:after {
-				transition: 0.4s $easing 0.4s;
-				width: 100%;
 				left: 0;
+				width: 100%;
+				transition: 0.4s $easing 0.4s;
 			}
 			.font-element__block--family,
 			.font-element__block--key,
@@ -242,8 +253,8 @@ export default {
 			}
 		}
 		&.inactive {
-			pointer-events: none;
 			opacity: 0.1;
+			pointer-events: none;
 		}
 	}
 	&__block {
@@ -252,17 +263,17 @@ export default {
 			width: grid(4);
 		}
 		&-title {
-			font-size: rem(16);
-			font-weight: 500;
-			line-height: 1.75;
-			width: 100%;
 			display: flex;
+			align-items: baseline;
+			width: 100%;
 			border: none;
 			outline: none;
-			align-items: baseline;
+			font-weight: 500;
+			font-size: rem(16);
+			line-height: 1.75;
 			&--colors {
-				line-height: 1;
 				align-items: center;
+				line-height: 1;
 			}
 			& + p {
 				margin-top: rem(5);
@@ -274,11 +285,11 @@ export default {
 		}
 	}
 	&__color-el {
+		display: inline-block;
 		width: rem(24);
 		height: rem(24);
-		display: inline-block;
+		border: 1px solid color(Grey, 0.5);
 		border-radius: 50%;
-		box-shadow: 0 0 10px 0 rgba(black, 0.1);
 		margin-right: rem(10);
 	}
 }

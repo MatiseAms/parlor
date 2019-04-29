@@ -11,12 +11,14 @@
 						:key="`double-${index}`"
 						class="color__item"
 					>
-						<button class="color__delete" @click.prevent="deleteColor(color.id)">
+						<button v-if="editMode" class="color__delete" @click.prevent="deleteColor(color.id)">
 							Delete color
 						</button>
 						<span class="color__block" :style="`background: ${color.value}`"></span>
-						<input v-model="color.name" type="text" class="color__name color__input" />
-						<input v-model="color.value" type="text" maxlength="7" class="color__value color__input" />
+						<label v-if="!editMode" class="color__name color__input">{{ color.name }}</label>
+						<label v-if="!editMode" class="color__value color__input">{{ color.value }}</label>
+						<input v-if="editMode" v-model="color.name" type="text" class="color__name color__input" />
+						<input v-if="editMode" v-model="color.value" type="text" maxlength="7" class="color__value color__input" />
 					</li>
 				</ul>
 			</div>
@@ -27,14 +29,11 @@
 			</div>
 			<div class="color__double">
 				<ul class="color__list">
-					<li v-for="(color, index) of colors" :key="`double-${index}`" class="color__item">
+					<color-block v-for="(color, index) of colors" :key="`double-${index}`" :color="color" :edit-mode="editMode">
 						<button class="color__delete" @click.prevent="deleteColor(color.id)">
 							Delete color
 						</button>
-						<span class="color__block" :style="`background: ${color.value}`"></span>
-						<input v-model="color.name" type="text" class="color__name color__input" />
-						<input v-model="color.value" type="text" maxlength="7" class="color__value color__input" />
-					</li>
+					</color-block>
 				</ul>
 			</div>
 		</div>
@@ -42,10 +41,17 @@
 </template>
 <script>
 export default {
+	components: {
+		ColorBlock: () => import('~/components/elements/color-block.vue')
+	},
 	props: {
 		colors: {
 			type: Array,
 			default: () => []
+		},
+		editMode: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data: () => ({
@@ -66,10 +72,10 @@ export default {
 	&__header {
 		margin: grid(0.5 1);
 		h4 {
-			font-size: rem(24);
 			color: color(ParlorBlack);
-			letter-spacing: -0.24;
 			font-weight: 500;
+			font-size: rem(24);
+			letter-spacing: -0.24;
 		}
 	}
 	&__settings {
@@ -78,10 +84,10 @@ export default {
 		&:first-of-type {
 			&:after {
 				content: '';
-				display: block;
 				position: absolute;
-				left: grid(1);
 				right: grid(1);
+				left: grid(1);
+				display: block;
 				height: 1px;
 				background: color(Gallery);
 			}
@@ -93,9 +99,9 @@ export default {
 		flex-wrap: wrap;
 	}
 	&__item {
-		margin: grid(0 30/80 30/80);
-		width: grid(1);
 		position: relative;
+		width: grid(1.5);
+		margin: grid(0 30/80 30/80);
 		&:hover {
 			.color__delete {
 				opacity: 1;
@@ -104,23 +110,25 @@ export default {
 		}
 	}
 	&__block {
-		width: 100%;
-		height: grid(1);
 		display: block;
-		border-radius: 10px;
+		width: 100%;
+		height: grid(1.5);
 		border: 1px solid color(Grey, 0.5);
+		border-radius: 10px;
 		margin-bottom: rem(10);
 	}
 	&__input {
-		outline: none;
+		display: block;
+		width: 100%;
 		border: none;
-		margin: rem(5 0 0);
-		font-size: rem(14);
-		font-family: $primary-font-family;
+		outline: none;
 		color: color(ParlorBlack, 0.6);
 		font-weight: 500;
+		font-size: rem(14);
+		font-family: $primary-font-family;
 		line-height: 1;
 		transition: 0.2s $easing;
+		margin: rem(5 0 0);
 		&:hover {
 			color: color(ParlorBlack, 0.7);
 		}
@@ -133,42 +141,42 @@ export default {
 	}
 	&__delete {
 		position: absolute;
-		left: 100%;
 		bottom: 100%;
-		background: color(ParlorBlack);
+		left: 100%;
 		width: rem(20);
 		height: rem(20);
+		box-shadow: none;
+		border: none;
+		border-radius: 50%;
+		background: color(ParlorBlack);
 		text-indent: -9999rem;
 		transform: translate(-50%, 50%);
-		border-radius: 50%;
-		border: none;
-		box-shadow: none;
 		opacity: 0;
-		pointer-events: none;
 		cursor: pointer;
+		pointer-events: none;
 		&:after {
 			content: '';
+			position: absolute;
+			top: 50%;
+			left: 25%;
 			display: block;
 			width: 50%;
 			height: 2px;
 			background: color(Grey);
-			position: absolute;
-			left: 25%;
-			transform-origin: center center;
-			top: 50%;
 			transform: translate(0%, -50%) rotate(45deg);
+			transform-origin: center center;
 		}
 		&:before {
 			content: '';
+			position: absolute;
+			top: 50%;
+			left: 25%;
 			display: block;
 			width: 50%;
 			height: 2px;
 			background: color(Grey);
-			position: absolute;
-			left: 25%;
-			transform-origin: center center;
-			top: 50%;
 			transform: translate(0%, -50%) rotate(-45deg);
+			transform-origin: center center;
 		}
 	}
 }

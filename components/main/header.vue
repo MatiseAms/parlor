@@ -93,15 +93,15 @@ export default {
 <style lang="scss">
 @import '~tools';
 .title {
-	width: rem(80);
-	overflow: hidden;
 	display: flex;
 	align-items: center;
+	width: rem(80);
+	overflow: hidden;
 	&__text {
-		display: block;
 		position: absolute;
-		left: 0;
 		top: 0;
+		left: 0;
+		display: block;
 		text-indent: -999em;
 	}
 }
@@ -111,10 +111,10 @@ export default {
 
 .nav {
 	&__item {
-		font-size: rem(16);
-		line-height: 1;
 		color: color(ParlorBlack);
 		font-weight: 500;
+		font-size: rem(16);
+		line-height: 1;
 		padding: rem(0 30);
 	}
 	&__url {
@@ -122,8 +122,8 @@ export default {
 		opacity: 0.5;
 		transition: 0.15s ease-in-out;
 		&.nuxt-link-active {
-			opacity: 1;
 			text-decoration: underline;
+			opacity: 1;
 		}
 		&:hover {
 			opacity: 1;
@@ -140,44 +140,44 @@ export default {
 }
 .sub-nav {
 	position: absolute;
-	right: 0;
 	top: calc(100% + 5px);
-	border: 1px solid color(ParlorBlack, 0);
+	right: 0;
 	max-height: 0;
-	padding: 0;
+	border: 1px solid color(ParlorBlack, 0);
 	overflow: hidden;
-	transition: 0.4s $easing;
 	opacity: 0;
+	transition: 0.4s $easing;
+	padding: 0;
 	&.active {
+		max-height: rem(999);
 		border: 1px solid color(ParlorBlack);
 		opacity: 1;
 		padding: rem(15 0);
-		max-height: rem(999);
 	}
 	&__item {
 		width: 100%;
 	}
 	&__url {
 		display: block;
-		padding: rem(15 30);
+		color: color(ParlorBlack);
 
 		font-size: rem(14);
-		text-decoration: none;
 		white-space: nowrap;
-		color: color(ParlorBlack);
+		text-decoration: none;
+		padding: rem(15 30);
 		&:hover {
 			text-decoration: underline;
 		}
 	}
 }
 #header {
-	padding: 0 grid(2);
-	height: rem(120);
+	position: relative;
+	z-index: 2;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
-	position: relative;
-	z-index: 2;
+	height: rem(120);
+	padding: 0 grid(2);
 }
 </style>

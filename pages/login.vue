@@ -72,7 +72,6 @@ export default {
 	methods: {
 		async login() {
 			if (this.username && this.password) {
-				this.submit = true;
 				this.fallback();
 				const response = await this.$axios({
 					method: 'post',

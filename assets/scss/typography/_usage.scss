@@ -21,22 +21,22 @@ h6 {
 // heavy: 700
 
 h1 {
+	color: color(ParlorBlack);
 	font-size: rem(48);
 	letter-spacing: -0.5px;
-	color: color(ParlorBlack);
 }
 h3 {
-	font-size: rem(20);
-	letter-spacing: -0.24px;
 	color: color(ParlorBlack);
+	font-size: rem(20);
 	line-height: 1;
+	letter-spacing: -0.24px;
 }
 p {
+	color: color(ParlorBlack);
+	font-weight: 400;
 	font-size: rem(16);
 	line-height: 2;
 	letter-spacing: 0;
-	color: color(ParlorBlack);
-	font-weight: 400;
 	&.error {
 		color: red;
 	}
@@ -52,22 +52,22 @@ div + p {
 }
 
 .button {
-	font-family: neue-haas-unica;
-	text-align: center;
-	padding: rem(12 32);
-	font-size: rem(14);
-	font-weight: 500;
-	color: color(White);
-	line-height: rem(21);
-	letter-spacing: 0;
-	background-color: color(Parlor);
-	border-radius: rem(53);
-	text-decoration: none;
-	display: inline-block;
-	cursor: pointer;
 	position: relative;
+	display: inline-block;
 	box-shadow: none;
 	border: none;
+	border-radius: rem(53);
+	background-color: color(Parlor);
+	color: color(White);
+	font-weight: 500;
+	font-size: rem(14);
+	font-family: neue-haas-unica;
+	line-height: rem(21);
+	letter-spacing: 0;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	padding: rem(12 32);
 	&:disabled {
 		opacity: 0.3;
 		cursor: auto;
@@ -79,13 +79,13 @@ div + p {
 	}
 	&:after {
 		content: '';
-		height: 1px;
-		background: color(White);
-		display: block;
 		position: absolute;
 		top: calc(100% - 15px);
-		left: rem(30);
 		right: calc(100% - 30px);
+		left: rem(30);
+		display: block;
+		height: 1px;
+		background: color(White);
 		transition: 0.3s $easing;
 	}
 	&:hover {
@@ -112,16 +112,16 @@ p + .button {
 }
 @keyframes hoverButton {
 	0% {
-		left: rem(30);
 		right: calc(100% - 30px);
+		left: rem(30);
 	}
 	50% {
-		left: rem(30);
 		right: rem(30);
+		left: rem(30);
 	}
 	100% {
-		left: calc(100% - 30px);
 		right: rem(30);
+		left: calc(100% - 30px);
 	}
 }
 h3 + p {
