@@ -81,7 +81,7 @@
 							</nuxt-link>
 						</li>
 						<li class="project__item">
-							<button class="project__url" @click="deleteProject">
+							<button class="project__url project__url--delete" @click="deleteProject">
 								<h4>Delete "{{ project.name }}"</h4>
 							</button>
 						</li>
@@ -206,6 +206,16 @@ export default {
 			opacity: 0.5;
 			transition: 0.3s $easing;
 		}
+		&--delete {
+			border-bottom: none;
+			&:after {
+				content: none;
+			}
+			h4 {
+				color: color(Red);
+				font-size: rem(16);
+			}
+		}
 	}
 	&__warning {
 		display: flex;
@@ -213,6 +223,8 @@ export default {
 		height: 100%;
 		position: absolute;
 		right: 0;
+		color: color(Orange);
+		text-decoration: none;
 	}
 }
 </style>
