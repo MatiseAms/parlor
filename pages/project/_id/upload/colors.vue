@@ -6,7 +6,7 @@
 			</template>
 			<template v-slot:footer>
 				<div class="checklist__footer">
-					<nuxt-link :to="`/project/${$route.params.id}/upload/grid`" class="checklist__skip">
+					<nuxt-link v-if="!$route.query.redirect" :to="`/project/${$route.params.id}/upload/grid`" class="checklist__skip">
 						Skip
 					</nuxt-link>
 					<button class="button button--black" @click="confirm">
@@ -64,7 +64,12 @@ export default {
 				}
 			});
 			if (response && response.data && response.data.code === 0) {
-				this.$router.push(`/project/${this.$route.params.id}/upload/grid`);
+				const query = this.$route.query.redirect;
+				if (query && query === 'project') {
+					this.$router.push(`/project/${this.$route.params.id}/colors`);
+				} else {
+					this.$router.push(`/project/${this.$route.params.id}/upload/grid`);
+				}
 			}
 		}
 	}

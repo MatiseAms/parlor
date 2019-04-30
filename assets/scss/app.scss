@@ -70,7 +70,6 @@ main {
 	input {
 		display: flex;
 		align-items: center;
-		font-family: $primary-font-family;
 		width: 100%;
 		height: rem(40);
 		box-shadow: none;
@@ -79,6 +78,7 @@ main {
 		background: transparent;
 		color: color(ParlorBlack);
 		font-size: rem(16);
+		font-family: $primary-font-family;
 		line-height: rem(21);
 		padding: 0;
 		margin: 0;
@@ -128,9 +128,9 @@ form {
 		flex-direction: column;
 	}
 	input {
+		width: calc(100% - #{$grid-1});
 		font-size: 1rem;
 		font-family: $primary-font-family;
-		width: calc(100% - #{$grid-1});
 	}
 }
 .checklist {
@@ -197,10 +197,10 @@ form {
 		box-shadow: none;
 		border: none;
 		outline: none;
-		font-family: $primary-font-family;
 		background: transparent;
 		color: color(ParlorBlack);
 		font-size: rem(16);
+		font-family: $primary-font-family;
 		line-height: rem(21);
 		padding: 0;
 		margin: 0;

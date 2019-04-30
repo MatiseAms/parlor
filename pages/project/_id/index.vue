@@ -8,13 +8,13 @@
 				<div class="project__overview">
 					<ul v-if="project" class="project__list">
 						<li v-if="missingParts.includes('font')" class="project__item">
-							<nuxt-link :to="`/project/${$route.params.id}/upload/font`" class="project__url">
+							<nuxt-link :to="`/project/${$route.params.id}/upload/fonts?redirect=project`" class="project__url">
 								<h4>
 									Fonts
 								</h4>
 							</nuxt-link>
-							<nuxt-link :to="`/project/${$route.params.id}/upload/font`">
-								Finish the checklist
+							<nuxt-link :to="`/project/${$route.params.id}/upload/fonts?redirect=project`" class="project__warning">
+								Upload the fonts
 							</nuxt-link>
 						</li>
 						<li class="project__item">
@@ -22,10 +22,13 @@
 								<h4>
 									Typography
 								</h4>
-								<p>See all Typography</p>
 							</nuxt-link>
-							<nuxt-link v-if="missingParts.includes('typo')" :to="`/project/${$route.params.id}/upload/typography`">
-								Finish the checklist
+							<nuxt-link
+								v-if="missingParts.includes('typo')"
+								:to="`/project/${$route.params.id}/upload/typography?redirect=project`"
+								class="project__warning"
+							>
+								Finish the Typography
 							</nuxt-link>
 						</li>
 						<li class="project__item">
@@ -33,10 +36,13 @@
 								<h4>
 									Colors
 								</h4>
-								<p>See all Colors</p>
 							</nuxt-link>
-							<nuxt-link v-if="missingParts.includes('colors')" :to="`/project/${$route.params.id}/upload/colors`">
-								Finish the checklist
+							<nuxt-link
+								v-if="missingParts.includes('colors')"
+								:to="`/project/${$route.params.id}/upload/colors?redirect=project`"
+								class="project__warning"
+							>
+								Finish the Colors
 							</nuxt-link>
 						</li>
 						<li class="project__item">
@@ -44,18 +50,20 @@
 								<h4>
 									Grid
 								</h4>
-								<p>See Grid layout</p>
 							</nuxt-link>
-							<nuxt-link v-if="missingParts.includes('grid')" :to="`/project/${$route.params.id}/upload/grid`">
-								Finish the checklist
+							<nuxt-link
+								v-if="missingParts.includes('grid')"
+								:to="`/project/${$route.params.id}/upload/grid?redirect=project`"
+								class="project__warning"
+							>
+								Finish the Grid layout
 							</nuxt-link>
 						</li>
 						<li class="project__item">
 							<nuxt-link :to="`/project/${$route.params.id}/images`" class="project__url">
 								<h4>
-									Static images
+									Images
 								</h4>
-								<p>See all images</p>
 							</nuxt-link>
 						</li>
 						<li class="project__item">
@@ -63,7 +71,6 @@
 								<h4>
 									Add an user
 								</h4>
-								<p>Add an user</p>
 							</nuxt-link>
 						</li>
 						<li class="project__item">
@@ -71,7 +78,6 @@
 								<h4>
 									Upload new files
 								</h4>
-								<p>Upload new files</p>
 							</nuxt-link>
 						</li>
 						<li class="project__item">
@@ -156,6 +162,55 @@ export default {
 	}
 	&__item {
 		display: flex;
+		margin: rem(20 0);
+		position: relative;
+	}
+	&__url {
+		box-shadow: none;
+		border: none;
+		background: transparent;
+		padding: 0;
+		margin: 0;
+		text-decoration: none;
+		display: flex;
+		width: 100%;
+		border-bottom: 1px solid color(Gallery, 0.5);
+		cursor: pointer;
+		transition: 0.3s $easing;
+		&:after {
+			content: '';
+			display: block;
+			width: 0;
+			height: 1px;
+			background: color(Grey, 0.5);
+			top: 100%;
+			left: 0;
+			position: absolute;
+			transition: 0.3s $easing;
+		}
+		&:hover {
+			&:after {
+				width: 100%;
+			}
+			h4 {
+				opacity: 1;
+			}
+		}
+		h4 {
+			font-size: rem(32);
+			line-height: 2;
+			text-decoration: none;
+			color: color(ParlorBlack);
+			opacity: 0.5;
+			transition: 0.3s $easing;
+		}
+	}
+	&__warning {
+		display: flex;
+		align-items: center;
+		height: 100%;
+		position: absolute;
+		right: 0;
 	}
 }
 </style>

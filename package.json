@@ -17,9 +17,10 @@
 		"generate": "nuxt generate"
 	},
 	"dependencies": {
-		"nuxt": "^2.6.1",
 		"@nuxtjs/axios": "^5.4.1",
-		"@nuxtjs/google-analytics": "^2.2.0"
+		"@nuxtjs/google-analytics": "^2.2.0",
+		"electron": "^5.0.0",
+		"nuxt": "^2.6.1"
 	},
 	"devDependencies": {
 		"nuxt-rfg-icon": "^0.6.3",

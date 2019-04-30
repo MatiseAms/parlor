@@ -58,18 +58,18 @@ export default {
 @import '~tools';
 .breadcrumbs {
 	display: flex;
-	align-items: center;
 	justify-content: space-between;
+	align-items: center;
 	margin: grid(-2 2 1);
 	&__item {
 		padding: rem(0 5 0 0);
 		&:before {
 			content: '/';
 			color: color(ParlorBlack);
-			padding: rem(0 5 0 0);
-			opacity: 0.8;
 			font-size: rem(12);
 			line-height: 1;
+			opacity: 0.8;
+			padding: rem(0 5 0 0);
 		}
 		&:last-of-type {
 			.breadcrumbs__url {
@@ -89,9 +89,9 @@ export default {
 		color: color(ParlorBlack);
 		font-size: rem(12);
 		line-height: 1;
+		text-decoration: none;
 		opacity: 0.8;
 		transition: 0.3s $easing;
-		text-decoration: none;
 		&--link {
 			&:hover {
 				opacity: 1;

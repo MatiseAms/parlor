@@ -26,7 +26,11 @@
 					</label>
 				</div>
 				<div class="login__submit">
-					<nuxt-link :to="`/project/${$route.params.id}/upload/typography`" class="checklist__skip">
+					<nuxt-link
+						v-if="!$route.query.redirect"
+						:to="`/project/${$route.params.id}/upload/typography`"
+						class="checklist__skip"
+					>
 						Skip fonts
 					</nuxt-link>
 					<button class="button" type="submit" :disabled="disabled">
@@ -68,7 +72,6 @@ export default {
 			withCredentials: true,
 			url: `/project/${params.id}/upload/typo?scan=${scan}`
 		});
-		console.log(response);
 		if (response && response.data && response.data.code === 0) {
 			//succes
 			if (!response.data.data.missingFonts.length) {
@@ -114,7 +117,12 @@ export default {
 				}
 			});
 			if (response && response.data && response.data.code === 0) {
-				this.$router.push(`/project/${this.$route.params.id}/upload/typography`);
+				const query = this.$route.query.redirect;
+				if (query && query === 'project') {
+					this.$router.push(`/project/${this.$route.params.id}`);
+				} else {
+					this.$router.push(`/project/${this.$route.params.id}/upload/typography`);
+				}
 			}
 		},
 		notReady() {
