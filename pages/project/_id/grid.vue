@@ -1,9 +1,10 @@
 <template>
 	<main class="page page--checklist">
+		<bread-crumbs :title="title" />
 		<section class="checklist checklist__grid">
 			<div>
 				<p class="center grey sub-title">
-					CHECKLIST
+					OVERVIEW
 				</p>
 				<h1 class="center">
 					Grid
@@ -13,10 +14,23 @@
 				<form @submit.prevent="confirm">
 					<label class="login__label-el">
 						<span class="login__label">Grid columns</span>
-						<input v-model.number="gridAmount" max="50" min="1" type="number" @input="setGrid" />
+						<span v-if="!editMode" class="login__input" :class="{ error: error, succes: succes }">{{ gridAmount }}</span>
+						<input
+							v-if="editMode"
+							ref="font"
+							v-model.number="gridAmount"
+							max="50"
+							min="1"
+							type="number"
+							:class="{ error: error, succes: succes }"
+							@input="setGrid"
+						/>
 						<span class="login__check"></span>
 						<p v-if="error" class="error">
 							{{ error }}
+						</p>
+						<p v-if="succes" class="succes">
+							{{ succes }}
 						</p>
 					</label>
 					<div class="row grid-example">
@@ -30,17 +44,28 @@
 				</form>
 			</div>
 		</section>
+		<div v-if="status" class="checklist__footer">
+			<button class="button button--black" @click="edit">
+				{{ buttonText() }}
+			</button>
+		</div>
 	</main>
 </template>
 
 <script>
 export default {
 	middleware: 'session',
+	components: {
+		BreadCrumbs: () => import('~/components/elements/bread-crumbs.vue')
+	},
 	data() {
 		return {
 			gridAmount: 0,
 			grid: Array(0),
-			error: ''
+			error: '',
+			succes: '',
+			editMode: false,
+			status: false
 		};
 	},
 	async asyncData({ params, app }) {
@@ -52,7 +77,9 @@ export default {
 		if (responseProject && responseProject.data && responseProject.data.gridStatus) {
 			return {
 				grid: Array(responseProject.data.grids[0].value),
-				gridAmount: responseProject.data.grids[0].value
+				gridAmount: responseProject.data.grids[0].value,
+				status: true,
+				title: responseProject.data.name
 			};
 		} else {
 			const response = await app.$axios({
@@ -63,13 +90,40 @@ export default {
 			if (response && response.data && response.data.code === 0) {
 				return {
 					grid: Array(response.data.data),
-					gridAmount: response.data.data
+					gridAmount: response.data.data,
+					title: response.data.projectTitle
 				};
 			}
 		}
 	},
 	methods: {
+		buttonText() {
+			if (!this.status) {
+				return 'Go to checklist';
+			}
+			if (this.editMode) {
+				return 'Save';
+			} else {
+				return 'Edit';
+			}
+		},
+		async edit() {
+			if (!this.status) {
+				this.$router.push(`/project/${this.$route.params.id}/upload/grid`);
+			}
+			this.succes = '';
+			this.error = '';
+			this.editMode = !this.editMode;
+			if (!this.editMode) {
+				this.confirm();
+			} else {
+				setTimeout(() => {
+					this.$refs['font'].focus();
+				});
+			}
+		},
 		async confirm() {
+			this.editMode = false;
 			const response = await this.$axios({
 				method: 'post',
 				withCredentials: true,
@@ -80,7 +134,9 @@ export default {
 			});
 			if (response && response.data && response.data.code === 0) {
 				//start checklist
-				this.$router.push(`/project/${this.$route.params.id}`);
+				this.succes = 'Grid layout updated';
+			} else {
+				this.error = response.data.message;
 			}
 		},
 		setGrid() {
@@ -97,45 +153,3 @@ export default {
 	}
 };
 </script>
-<style lang="scss">
-@import '~tools';
-.grid-example {
-	margin: rem(40 0);
-	height: grid(7);
-	background: color(Gallery);
-	&__column {
-		border-left: 1px solid red;
-		&:last-of-type {
-			border-right: 1px solid red;
-		}
-	}
-}
-.checklist__grid {
-	margin: grid(0 4);
-}
-.login__label-el {
-	width: calc(100% - (#{$grid-1} * 4));
-	margin: 0 auto;
-	input {
-		width: 100%;
-		border: none;
-		background: transparent;
-		box-shadow: none;
-		height: rem(40);
-		padding: 0;
-		margin: 0;
-		line-height: rem(21);
-		font-size: rem(16);
-		color: color(ParlorBlack);
-		outline: none;
-		&::placeholder {
-			opacity: 0.5;
-		}
-		&:focus {
-			& + .login__check {
-				opacity: 1;
-			}
-		}
-	}
-}
-</style>

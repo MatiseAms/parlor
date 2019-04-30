@@ -1,8 +1,22 @@
 <template>
 	<main class="page page--checklist">
-		<checklist-field title="Typography">
+		<checklist-field title="Typography" sub-title="CHECKLIST">
 			<template v-slot:header>
-				<typography-block :fonts="fonts" />
+				<typography-block :fonts="fonts" :edit-mode="true" />
+			</template>
+			<template v-slot:footer>
+				<div class="checklist__footer">
+					<nuxt-link
+						v-if="!$route.query.redirect"
+						:to="`/project/${$route.params.id}/upload/colors`"
+						class="checklist__skip"
+					>
+						Skip
+					</nuxt-link>
+					<button class="button button--black" @click="confirm">
+						Save
+					</button>
+				</div>
 			</template>
 		</checklist-field>
 	</main>
@@ -29,13 +43,15 @@ export default {
 			url: `/project/${params.id}`
 		});
 		let fonts;
+		let scan = true;
 		if (responseProject && responseProject.data && responseProject.data.typoStatus) {
 			fonts = responseProject.data.typographies;
+			scan = false;
 		} else {
 			const response = await app.$axios({
 				method: 'get',
 				withCredentials: true,
-				url: `/project/${params.id}/upload/typo`
+				url: `/project/${params.id}/upload/typo?scan=${scan}`
 			});
 			if (response && response.data && response.data.code === 0) {
 				fonts = response.data.data.allFonts;
@@ -78,8 +94,12 @@ export default {
 				}
 			});
 			if (response && response.data && response.data.code === 0) {
-				//start checklist
-				this.$router.push(`/project/${this.$route.params.id}/upload/colors`);
+				const query = this.$route.query.redirect;
+				if (query && query === 'project') {
+					this.$router.push(`/project/${this.$route.params.id}/typography`);
+				} else {
+					this.$router.push(`/project/${this.$route.params.id}/upload/colors`);
+				}
 			}
 		},
 		getFontSize(font) {

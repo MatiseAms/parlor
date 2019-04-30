@@ -1,16 +1,16 @@
 <template>
 	<main class="page page--checklist">
-		<checklist-field title="Colors">
+		<checklist-field title="Colors" sub-title="CHECKLIST">
 			<template v-slot:header>
-				<colors-block :colors="colors" />
+				<colors-block :colors="colors" :edit-mode="true" />
 			</template>
 			<template v-slot:footer>
 				<div class="checklist__footer">
-					<nuxt-link :to="`/project/${$route.params.id}/upload/grid`" class="checklist__skip">
-						Skip Colors
+					<nuxt-link v-if="!$route.query.redirect" :to="`/project/${$route.params.id}/upload/grid`" class="checklist__skip">
+						Skip
 					</nuxt-link>
 					<button class="button button--black" @click="confirm">
-						Next step
+						Save
 					</button>
 				</div>
 			</template>
@@ -64,7 +64,12 @@ export default {
 				}
 			});
 			if (response && response.data && response.data.code === 0) {
-				this.$router.push(`/project/${this.$route.params.id}/upload/grid`);
+				const query = this.$route.query.redirect;
+				if (query && query === 'project') {
+					this.$router.push(`/project/${this.$route.params.id}/colors`);
+				} else {
+					this.$router.push(`/project/${this.$route.params.id}/upload/grid`);
+				}
 			}
 		}
 	}

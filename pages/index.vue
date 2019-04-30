@@ -19,13 +19,13 @@
 @import '~tools';
 
 .mockup__image {
-	margin: rem(80) auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: grid(20);
 	height: grid(11.25);
 	background: color(Gallery);
 	overflow: hidden;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	margin: rem(80) auto;
 }
 </style>

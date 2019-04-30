@@ -1,17 +1,20 @@
 <template>
 	<main class="page page--checklist">
-		<checklist-field title="Typography">
+		<checklist-field title="Typography" sub-title="OVERVIEW">
+			<template v-slot:top>
+				<bread-crumbs :title="title" />
+			</template>
 			<template v-slot:header>
-				<typography-block :fonts="fonts" />
+				<typography-block :fonts="fonts" :edit-mode="status" />
 			</template>
 			<template v-slot:footer>
 				<div class="checklist__footer">
-					<nuxt-link :to="`/project/${$route.params.id}/upload/colors`" class="checklist__skip">
-						Skip Typography
-					</nuxt-link>
-					<button class="button button--black" @click="confirm">
-						Next step
-					</button>
+					<p v-if="error" class="error">
+						{{ error }}
+					</p>
+					<p v-if="succes" class="succes">
+						{{ succes }}
+					</p>
 				</div>
 			</template>
 		</checklist-field>
@@ -23,13 +26,15 @@ export default {
 	middleware: 'session',
 	components: {
 		checklistField: () => import('~/components/elements/checklist-field.vue'),
-		TypographyBlock: () => import('~/components/elements/typography-block.vue')
+		TypographyBlock: () => import('~/components/elements/typography-block.vue'),
+		BreadCrumbs: () => import('~/components/elements/bread-crumbs.vue')
 	},
 	data() {
 		return {
 			fonts: [],
 			weight: [],
-			error: ''
+			error: '',
+			succes: ''
 		};
 	},
 	async asyncData({ params, app }) {
@@ -39,16 +44,21 @@ export default {
 			url: `/project/${params.id}`
 		});
 		let fonts;
+		let status = false;
+		let title = '';
 		if (responseProject && responseProject.data && responseProject.data.typoStatus) {
 			fonts = responseProject.data.typographies;
+			title = responseProject.data.name;
+			status = true;
 		} else {
 			const response = await app.$axios({
 				method: 'get',
 				withCredentials: true,
-				url: `/project/${params.id}/upload/typo`
+				url: `/project/${params.id}/upload/typo?scan=true`
 			});
 			if (response && response.data && response.data.code === 0) {
 				fonts = response.data.data.allFonts;
+				title = response.data.projectTitle;
 			}
 		}
 		//some sorting and mappingx
@@ -74,10 +84,32 @@ export default {
 		return {
 			fonts,
 			weight,
-			colors
+			colors,
+			status,
+			title
 		};
 	},
+	created() {
+		this.$nuxt.$on('Typo_change', () => {
+			this.succes = '';
+			this.error = '';
+		});
+		this.$nuxt.$on('Typo_save', () => {
+			this.confirm();
+		});
+	},
+	beforeDestroy() {
+		this.$nuxt.$off('Typo_save');
+		this.$nuxt.$off('Typo_change');
+	},
 	methods: {
+		buttonText() {
+			if (!this.status) {
+				return 'Go to checklist';
+			} else {
+				return 'Edit';
+			}
+		},
 		async confirm() {
 			const response = await this.$axios({
 				method: 'post',
@@ -89,7 +121,9 @@ export default {
 			});
 			if (response && response.data && response.data.code === 0) {
 				//start checklist
-				this.$router.push(`/project/${this.$route.params.id}/upload/colors`);
+				this.succes = 'Typography updated';
+			} else {
+				this.error = response.data.message;
 			}
 		},
 		getFontSize(font) {

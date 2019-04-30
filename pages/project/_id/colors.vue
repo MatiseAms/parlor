@@ -1,8 +1,24 @@
 <template>
 	<main class="page page--checklist">
-		<checklist-field title="Colors">
+		<checklist-field title="Colors" sub-title="OVERVIEW">
+			<template v-slot:top>
+				<bread-crumbs :title="title" />
+			</template>
 			<template v-slot:header>
-				<colors-block :colors="colors" />
+				<colors-block :colors="colors" :edit-mode="editMode" />
+			</template>
+			<template v-if="status" v-slot:footer>
+				<div class="checklist__footer">
+					<p v-if="error" class="error">
+						{{ error }}
+					</p>
+					<p v-if="succes" class="succes">
+						{{ succes }}
+					</p>
+					<button class="button button--black" @click="edit">
+						{{ buttonText() }}
+					</button>
+				</div>
 			</template>
 		</checklist-field>
 	</main>
@@ -13,11 +29,15 @@ export default {
 	middleware: 'session',
 	components: {
 		checklistField: () => import('~/components/elements/checklist-field.vue'),
-		ColorsBlock: () => import('~/components/elements/colors-block.vue')
+		ColorsBlock: () => import('~/components/elements/colors-block.vue'),
+		BreadCrumbs: () => import('~/components/elements/bread-crumbs.vue')
 	},
 	data() {
 		return {
-			colors: []
+			colors: [],
+			editMode: false,
+			error: '',
+			succes: ''
 		};
 	},
 	async asyncData({ params, app }) {
@@ -26,14 +46,38 @@ export default {
 			withCredentials: true,
 			url: `/project/${params.id}`
 		});
-		if (responseProject && responseProject.data && responseProject.data.colorStatus) {
+		if (responseProject && responseProject.data) {
 			return {
-				colors: responseProject.data.colors
+				colors: responseProject.data.colors,
+				status: responseProject.data.colorStatus,
+				title: responseProject.data.name
 			};
 		}
 	},
 	methods: {
+		buttonText() {
+			if (!this.status) {
+				return 'Go to checklist';
+			}
+			if (this.editMode) {
+				return 'Save';
+			} else {
+				return 'Edit';
+			}
+		},
+		async edit() {
+			if (!this.status) {
+				this.$router.push(`/project/${this.$route.params.id}/upload/colors`);
+			}
+			this.succes = '';
+			this.error = '';
+			this.editMode = !this.editMode;
+			if (!this.editMode) {
+				this.confirm();
+			}
+		},
 		async confirm() {
+			this.editMode = false;
 			const response = await this.$axios({
 				method: 'post',
 				withCredentials: true,
@@ -43,7 +87,10 @@ export default {
 				}
 			});
 			if (response && response.data && response.data.code === 0) {
-				this.$router.push(`/project/${this.$route.params.id}/upload/grid`);
+				//start checklist
+				this.succes = 'Colors updated';
+			} else {
+				this.error = response.data.message;
 			}
 		}
 	}

@@ -93,6 +93,9 @@ export default {
 			};
 		}
 	},
+	created() {
+		this.changeSorting('Created');
+	},
 	methods: {
 		changeSorting(val) {
 			this.sortMethod = val;
@@ -182,9 +185,9 @@ export default {
 @import '~tools';
 .no-project {
 	display: flex;
-	align-items: center;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 }
 .projects {
 	display: flex;
@@ -194,9 +197,9 @@ export default {
 
 	&__navigation {
 		display: flex;
-		width: 100%;
-		align-items: center;
 		justify-content: space-between;
+		align-items: center;
+		width: 100%;
 		margin-top: rem(60);
 	}
 	&__new-project {
@@ -206,20 +209,20 @@ export default {
 		width: 100%;
 		margin: 0;
 		&-button {
-			border: none;
 			box-shadow: none;
+			border: none;
+			outline: none;
 			background: transparent;
-			font-size: rem(16);
 			color: color(ParlorBlack);
-			padding: rem(0 40 0 0);
 			font-weight: 500;
+			font-size: rem(16);
 			opacity: 0.5;
 			transition: 0.15s ease-in-out;
 			cursor: pointer;
-			outline: none;
+			padding: rem(0 40 0 0);
 			&.active {
-				opacity: 1;
 				text-decoration: underline;
+				opacity: 1;
 			}
 			&:hover {
 				opacity: 1;
@@ -242,20 +245,20 @@ export default {
 }
 
 .single-project {
+	position: relative;
+	display: flex;
+	flex-direction: column;
 	width: grid(6);
 	height: grid(3);
 	background: color(Gallery, 0.5);
-	position: relative;
-	padding: rem(20 30);
 	transition: 0.3s $easing;
-	display: flex;
-	flex-direction: column;
+	padding: rem(20 30);
 	&:hover {
 		box-shadow: rem(0 0 10 0) color(ParlorBlack, 0.1);
 	}
 	.grey {
-		font-size: rem(14);
 		display: inline-block;
+		font-size: rem(14);
 		line-height: 1;
 		& + .grey {
 			margin-top: rem(10);
@@ -265,14 +268,14 @@ export default {
 		font-weight: 600;
 	}
 	&__title {
-		margin-top: rem(15);
-		z-index: 1;
 		position: relative;
+		z-index: 1;
+		margin-top: rem(15);
 	}
 	&__url {
 		position: absolute;
-		left: 0;
 		top: 0;
+		left: 0;
 		width: 100%;
 		height: 100%;
 		text-indent: -9999rem;
@@ -284,17 +287,17 @@ export default {
 		display: flex;
 	}
 	&__name {
-		opacity: 0;
 		height: 0;
-		white-space: nowrap;
-		font-size: rem(12);
 		color: color(ParlorBlack);
+		font-size: rem(12);
+		white-space: nowrap;
+		opacity: 0;
 		transition: opacity 0.2s $easing;
 	}
 	&__user {
+		position: relative;
 		width: rem(25);
 		height: rem(25);
-		position: relative;
 		border-radius: 50%;
 		margin-right: rem(10);
 		&:hover {
@@ -305,25 +308,25 @@ export default {
 		img {
 			width: 100%;
 			height: 100%;
-			object-fit: cover;
 			border-radius: 50%;
+			object-fit: cover;
 		}
 	}
 	&__process-bar {
-		display: inline-block;
 		position: relative;
+		display: inline-block;
 		width: 100%;
 		height: rem(4);
-		background: color(Grey, 0.2);
 		border-radius: 5px;
+		background: color(Grey, 0.2);
 		&-status {
-			width: 0;
-			border-radius: 5px;
-			display: block;
-			background: color(Parlor);
-			height: 100%;
 			position: relative;
 			z-index: 1;
+			display: block;
+			width: 0;
+			height: 100%;
+			border-radius: 5px;
+			background: color(Parlor);
 		}
 	}
 }

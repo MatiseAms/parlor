@@ -1,7 +1,8 @@
 <template>
 	<section class="checklist">
+		<slot name="top" />
 		<p class="center grey sub-title">
-			CHECKLIST
+			{{ subTitle }}
 		</p>
 		<h1 class="center">
 			{{ title }}
@@ -14,6 +15,10 @@
 export default {
 	props: {
 		title: {
+			type: String,
+			default: ''
+		},
+		subTitle: {
 			type: String,
 			default: ''
 		}
