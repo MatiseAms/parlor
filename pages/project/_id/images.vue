@@ -7,14 +7,18 @@
 			<template v-slot:header>
 				<div class="images__overview">
 					<ul class="images__list">
-						<li v-for="(image, index) of images" :key="index" class="images__item">
+						<li v-for="(image, index) of images.slice(0, amount)" :key="index" class="images__item">
 							<img :src="image" alt="Image of project" />
 						</li>
 					</ul>
 				</div>
 			</template>
 			<template v-slot:footer>
-				<div class="checklist__footer"></div>
+				<div class="checklist__footer">
+					<button v-if="amount + 12 < images.length" class="button" @click="amount += 12">
+						Load more...
+					</button>
+				</div>
 			</template>
 		</checklist-field>
 	</main>
@@ -28,7 +32,9 @@ export default {
 		BreadCrumbs: () => import('~/components/elements/bread-crumbs.vue')
 	},
 	data() {
-		return {};
+		return {
+			amount: 12
+		};
 	},
 	async asyncData({ params, app }) {
 		const responseProject = await app.$axios({
