@@ -16,6 +16,7 @@
 								<span class="login__label">Project name</span>
 								<input
 									v-model="name"
+									autofocus
 									type="text"
 									placeholder="Enter your desired project name"
 									required="true"

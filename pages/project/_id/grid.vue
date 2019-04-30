@@ -10,6 +10,7 @@
 					Grid
 				</h1>
 			</div>
+			<warning-block v-if="!status" name="grid" />
 			<div class="login__form-container">
 				<form @submit.prevent="confirm">
 					<label class="login__label-el">
@@ -56,7 +57,8 @@
 export default {
 	middleware: 'session',
 	components: {
-		BreadCrumbs: () => import('~/components/elements/bread-crumbs.vue')
+		BreadCrumbs: () => import('~/components/elements/bread-crumbs.vue'),
+		WarningBlock: () => import('~/components/elements/warning-block.vue')
 	},
 	data() {
 		return {
@@ -91,7 +93,8 @@ export default {
 				return {
 					grid: Array(response.data.data),
 					gridAmount: response.data.data,
-					title: response.data.projectTitle
+					title: response.data.projectTitle,
+					status: false
 				};
 			}
 		}

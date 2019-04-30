@@ -5,7 +5,11 @@
 				<bread-crumbs :title="title" />
 			</template>
 			<template v-slot:header>
-				<colors-block :colors="colors" :edit-mode="editMode" />
+				<warning-block v-if="!status" name="colors" />
+				<form @submit.prevent="confirm">
+					<colors-block :colors="colors" :edit-mode="editMode" />
+					<input type="submit" style="position: absolute; left: -9999px" />
+				</form>
 			</template>
 			<template v-if="status" v-slot:footer>
 				<div class="checklist__footer">
@@ -30,7 +34,8 @@ export default {
 	components: {
 		checklistField: () => import('~/components/elements/checklist-field.vue'),
 		ColorsBlock: () => import('~/components/elements/colors-block.vue'),
-		BreadCrumbs: () => import('~/components/elements/bread-crumbs.vue')
+		BreadCrumbs: () => import('~/components/elements/bread-crumbs.vue'),
+		WarningBlock: () => import('~/components/elements/warning-block.vue')
 	},
 	data() {
 		return {

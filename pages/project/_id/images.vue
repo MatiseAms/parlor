@@ -15,7 +15,7 @@
 			</template>
 			<template v-slot:footer>
 				<div class="checklist__footer">
-					<button v-if="amount + 12 < images.length" class="button" @click="amount += 12">
+					<button v-if="amount < images.length" class="button button--black" @click="amount += 12">
 						Load more...
 					</button>
 				</div>
