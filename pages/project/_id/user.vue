@@ -25,6 +25,9 @@
 								<p v-if="error" class="error">
 									{{ error }}
 								</p>
+								<p v-if="succes" class="succes">
+									{{ succes }}
+								</p>
 							</label>
 							<div class="login__submit">
 								<button class="button" type="submit">
@@ -45,7 +48,8 @@ export default {
 		return {
 			username: '',
 			password: '',
-			error: ''
+			error: '',
+			succes: ''
 		};
 	},
 	middleware: 'session',
@@ -54,6 +58,7 @@ export default {
 			if (this.username) {
 				this.submit = true;
 				this.fallback();
+				this.succes = '';
 				this.$axios({
 					method: 'post',
 					withCredentials: true,
@@ -67,8 +72,11 @@ export default {
 							this.fallback(response.data);
 							return;
 						} else {
-							if (response.code !== 0) {
+							if (response.data.code !== 0) {
 								this.fallback(response.data.message);
+							} else {
+								this.fallback('');
+								this.succes = response.data.message;
 							}
 							return;
 						}
