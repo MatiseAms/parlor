@@ -5,6 +5,7 @@
 				<bread-crumbs :title="title" />
 			</template>
 			<template v-slot:header>
+				<warning-block v-if="!status" name="typography" />
 				<typography-block :fonts="fonts" :edit-mode="status" />
 			</template>
 			<template v-slot:footer>
@@ -27,7 +28,8 @@ export default {
 	components: {
 		checklistField: () => import('~/components/elements/checklist-field.vue'),
 		TypographyBlock: () => import('~/components/elements/typography-block.vue'),
-		BreadCrumbs: () => import('~/components/elements/bread-crumbs.vue')
+		BreadCrumbs: () => import('~/components/elements/bread-crumbs.vue'),
+		WarningBlock: () => import('~/components/elements/warning-block.vue')
 	},
 	data() {
 		return {

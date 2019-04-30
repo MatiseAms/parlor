@@ -6,20 +6,17 @@
 			</div>
 			<div class="color__double">
 				<ul class="color__list">
-					<li
+					<color-block
 						v-for="(color, index) of colors.filter((color) => color.doubleName)"
-						:key="`double-${index}`"
+						:key="`${index}`"
 						class="color__item"
+						:color="color"
+						:edit-mode="editMode"
 					>
-						<button v-if="editMode" class="color__delete" @click.prevent="deleteColor(color.id)">
+						<button class="color__delete" type="button" @click="deleteColor(color.id)">
 							Delete color
 						</button>
-						<span class="color__block" :style="`background: ${color.value}`"></span>
-						<label v-if="!editMode" class="color__name color__input">{{ color.name }}</label>
-						<label v-if="!editMode" class="color__value color__input">{{ color.value }}</label>
-						<input v-if="editMode" v-model="color.name" type="text" class="color__name color__input" />
-						<input v-if="editMode" v-model="color.value" type="text" maxlength="7" class="color__value color__input" />
-					</li>
+					</color-block>
 				</ul>
 			</div>
 		</div>
@@ -30,7 +27,7 @@
 			<div class="color__double">
 				<ul class="color__list">
 					<color-block v-for="(color, index) of colors" :key="`double-${index}`" :color="color" :edit-mode="editMode">
-						<button class="color__delete" @click.prevent="deleteColor(color.id)">
+						<button class="color__delete" type="button" @click="deleteColor(color.id)">
 							Delete color
 						</button>
 					</color-block>
@@ -59,6 +56,7 @@ export default {
 	}),
 	methods: {
 		deleteColor(id) {
+			console.log();
 			const index = this.colors.findIndex((el) => el.id === id);
 			this.colors.splice(index, 1);
 		}

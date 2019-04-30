@@ -14,7 +14,7 @@
 								</h4>
 							</nuxt-link>
 							<nuxt-link :to="`/project/${$route.params.id}/upload/fonts?redirect=project`" class="project__warning">
-								Upload the fonts
+								Upload all fonts
 							</nuxt-link>
 						</li>
 						<li class="project__item">
@@ -138,13 +138,15 @@ export default {
 	},
 	methods: {
 		async deleteProject() {
-			const response = await this.$axios({
-				method: 'delete',
-				withCredentials: true,
-				url: `/delete/${this.$route.params.id}`
-			});
-			if (response && response.data) {
-				this.$router.push('/projects');
+			if (confirm('You sure you want to delete the project?')) {
+				const response = await this.$axios({
+					method: 'delete',
+					withCredentials: true,
+					url: `/delete/${this.$route.params.id}`
+				});
+				if (response && response.data) {
+					this.$router.push('/projects');
+				}
 			}
 		}
 	}
@@ -180,8 +182,8 @@ export default {
 		&:after {
 			content: '';
 			display: block;
-			width: 0;
-			height: 1px;
+			width: 100%;
+			height: 0;
 			background: color(Grey, 0.5);
 			top: 100%;
 			left: 0;
@@ -190,7 +192,7 @@ export default {
 		}
 		&:hover {
 			&:after {
-				width: 100%;
+				height: 1px;
 			}
 			h4 {
 				opacity: 1;

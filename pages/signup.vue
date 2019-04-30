@@ -10,6 +10,7 @@
 						<span class="login__label">First name</span>
 						<input
 							v-model="fName"
+							autofocus
 							type="text"
 							placeholder="Enter your first name"
 							required="true"
@@ -92,6 +93,7 @@
 
 <script>
 export default {
+	middleware: 'create-account',
 	components: {
 		simpleForm: () => import('~/components/elements/simple-form.vue')
 	},

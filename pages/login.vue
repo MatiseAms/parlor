@@ -11,6 +11,7 @@
 						<span class="login__label">Username</span>
 						<input
 							v-model="username"
+							autofocus
 							type="text"
 							placeholder="Enter your username or email"
 							required="true"
@@ -51,6 +52,7 @@
 
 <script>
 export default {
+	middleware: 'create-account',
 	components: {
 		simpleForm: () => import('~/components/elements/simple-form.vue')
 	},
@@ -63,11 +65,6 @@ export default {
 				password: ''
 			}
 		};
-	},
-	beforeCreate() {
-		if (this.$store.state.session.loggedIn) {
-			this.$router.push('/projects');
-		}
 	},
 	methods: {
 		async login() {

@@ -2,7 +2,10 @@
 	<main class="page page--checklist">
 		<checklist-field title="Colors" sub-title="CHECKLIST">
 			<template v-slot:header>
-				<colors-block :colors="colors" :edit-mode="true" />
+				<form @submit.prevent="confirm">
+					<colors-block :colors="colors" :edit-mode="true" />
+					<input type="submit" style="position: absolute; left: -9999px" />
+				</form>
 			</template>
 			<template v-slot:footer>
 				<div class="checklist__footer">
